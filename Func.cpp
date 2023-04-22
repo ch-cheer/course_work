@@ -11,6 +11,9 @@ void DataEntry(Data* (&d), int& n) {
 	Sex sex;
 	Sesia sesia;
 
+	int sesia_count;
+	int subject_count;
+
 	Check* cl = new Check();
 
 	cout << "¬ведите количество студентов: ";
@@ -64,14 +67,35 @@ void DataEntry(Data* (&d), int& n) {
 		sex.sex = cl->getData(editType::onlyAlpha, 10);
 
 		cl->clear();
+		cl->setLabel("¬ведите количество сессий (от 1 до 9): ");
+		sesia_count = cl->getData(editType::onlyDigit, 1, 9);
+		sesia_count = sesia_count - 1;
+		
+		for (int n = 0; n <= sesia_count; n++) {
+			cl->clear();
+			cl->setLabel("¬ведите сессию: ");
+			sesia.sesia[n] = cl->getData(editType::onlyDigit, 1, 9);
+			cl->setLabel("¬ведите количество предметов: ");
+			subject_count = cl->getData(editType::onlyDigit, 1, 10);
+			subject_count = subject_count - 1;
+			for (int h = 0; h <= subject_count; h++) {
+				cl->setLabel("¬ведите предмет: ");
+				sesia.subject[h] = cl->getData(editType::all);
+				cl->clear();
+				cl->setLabel("¬ведите оценку: ");
+				sesia.mark[h] = cl->getData(editType::onlyDigit, 1, 5);
+			}
+		}
+
+		cl->clear();
 		cl->setLabel("¬ведите сессию: ");
-		sesia.sesia = cl->getData(editType::onlyDigit, 1, 9);
+		/*sesia.sesia = cl->getData(editType::onlyDigit, 1, 9);
 		cl->clear();
 		cl->setLabel("¬ведите предмет: ");
 		sesia.subject = cl->getData(editType::all);
 		cl->clear();
 		cl->setLabel("¬ведите оценку: ");
-		sesia.mark = cl->getData(editType::onlyDigit, 1, 5);
+		sesia.mark = cl->getData(editType::onlyDigit, 1, 5);*/
 
 		d[i].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
 
@@ -107,9 +131,9 @@ void DataRead(Data* (&d), int& n, string FileName) {
 			reading >> group.group;
 			reading >> exambook.exambook;
 			reading >> sex.sex;
-			reading >> sesia.sesia;
+			/*reading >> sesia.sesia;
 			reading >> sesia.subject;
-			reading >> sesia.mark;
+			reading >> sesia.mark;*/
 
 			d[i].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
 		}
@@ -282,12 +306,12 @@ r3:cout << "¬ведите номер нужного элемента (от 1 до " << n << "): ";
 			case 1:
 				cl->clear();
 				cl->setLabel("¬ведите предмет: ");
-				sesia.subject = cl->getData(editType::all);
+				//sesia.subject = cl->getData(editType::all);
 				break;
 			case 2:
 				cl->clear();
 				cl->setLabel("¬ведите оценку: ");
-				sesia.mark = cl->getData(editType::onlyDigit, 1, 5);
+				//sesia.mark = cl->getData(editType::onlyDigit, 1, 5);
 				break;
 			default:
 				break;
@@ -356,7 +380,7 @@ void DataAdd(Data* (&d), int& n) {
 	cout << "¬ведите новый пол: ";
 	cin >> sex.sex;
 
-	cout << "¬ведите количество сессий: ";
+	/*cout << "¬ведите количество сессий: ";
 	cin >> sesia.sesia;
 
 
@@ -364,7 +388,7 @@ void DataAdd(Data* (&d), int& n) {
 	cin >> sesia.subject;
 
 	cout << "¬ведите оценку: ";
-	cin >> sesia.mark;
+	cin >> sesia.mark;*/
 
 	d[size].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
 

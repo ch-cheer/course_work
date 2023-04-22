@@ -43,8 +43,8 @@ struct Sex {
 };
 
 struct Sesia {
-	string subject;
-	int mark, sesia;
+	string subject[9];
+	int mark[10], sesia[10];
 };
 
 class Data {

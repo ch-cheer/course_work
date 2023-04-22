@@ -21,9 +21,13 @@ Data::Data() {
 
 	sex.sex = "";
 
-	sesia.subject = "";
-	sesia.mark = 0;
-	sesia.sesia = 0;
+	for (int i = 0; i <= 8; i++) {
+		sesia.subject[i] = "";
+	}
+	for (int i = 0; i <= 9; i++) {
+		sesia.mark[i] = 0;
+		sesia.sesia[i] = 0;
+	}
 }
 
 Data::Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_) {
@@ -47,9 +51,13 @@ Data::Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut inst
 
 	sex.sex = sex_.sex;
 
-	sesia.subject = sesia_.subject;
-	sesia.mark = sesia_.mark;
-	sesia.sesia = sesia_.sesia;
+	for (int i = 0; i <= 8; i++) {
+		sesia.subject[i] = sesia_.subject[i];
+	}
+	for (int i = 0; i <= 9; i++) {
+		sesia.mark[i] = sesia_.mark[i];
+		sesia.sesia[i] = sesia_.sesia[i];
+	}
 }
 
 Data::~Data() {}
@@ -89,9 +97,13 @@ void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Ins
 
 	sex.sex = sex_.sex;
 
-	sesia.subject = sesia_.subject;
-	sesia.mark = sesia_.mark;
-	sesia.sesia = sesia_.sesia;
+	for (int i = 0; i <= 8; i++) {
+		sesia.subject[i] = sesia_.subject[i];
+	}
+	for (int i = 0; i <= 9; i++) {
+		sesia.mark[i] = sesia_.mark[i];
+		sesia.sesia[i] = sesia_.sesia[i];
+	}
 }
 
 Data& Data::operator=(Data d_o) {
@@ -115,9 +127,12 @@ Data& Data::operator=(Data d_o) {
 
 	this->sex.sex = d_o.sex.sex;
 
-	this->sesia.subject = d_o.sesia.subject;
-	this->sesia.mark = d_o.sesia.mark;
-	this->sesia.sesia = d_o.sesia.sesia;
-
+	for (int i = 0; i <= 8; i++) {
+		this->sesia.subject[i] = d_o.sesia.subject[i];
+	}
+	for (int i = 0; i <= 9; i++) {
+		this->sesia.mark[i] = d_o.sesia.mark[i];
+		this->sesia.sesia[i] = d_o.sesia.sesia[i];
+	}
 	return *this;
 }
