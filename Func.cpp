@@ -11,9 +11,6 @@ void DataEntry(Data* (&d), int& n) {
 	Sex sex;
 	Sesia sesia;
 
-	int sesia_count;
-	int subject_count;
-
 	Check* cl = new Check();
 
 	cout << "¬ведите количество студентов: ";
@@ -68,17 +65,20 @@ void DataEntry(Data* (&d), int& n) {
 
 		cl->clear();
 		cl->setLabel("¬ведите количество сессий (от 1 до 9): ");
-		sesia_count = cl->getData(editType::onlyDigit, 1, 9);
-		sesia_count = sesia_count - 1;
+		sesia.sesia_count = cl->getData(editType::onlyDigit, 1, 9);
+		sesia.sesia_count = sesia.sesia_count - 1;
 		
-		for (int n = 0; n <= sesia_count; n++) {
+		for (int n = 0; n <= sesia.sesia_count; n++) {
 			cl->clear();
 			cl->setLabel("¬ведите сессию: ");
 			sesia.sesia[n] = cl->getData(editType::onlyDigit, 1, 9);
+			
+			cl->clear();
 			cl->setLabel("¬ведите количество предметов: ");
-			subject_count = cl->getData(editType::onlyDigit, 1, 10);
-			subject_count = subject_count - 1;
-			for (int h = 0; h <= subject_count; h++) {
+			sesia.subject_count = cl->getData(editType::onlyDigit, 1, 10);
+			sesia.subject_count = sesia.subject_count - 1;
+			for (int h = 0; h <= sesia.subject_count; h++) {
+				cl->clear();
 				cl->setLabel("¬ведите предмет: ");
 				sesia.subject[h] = cl->getData(editType::all);
 				cl->clear();

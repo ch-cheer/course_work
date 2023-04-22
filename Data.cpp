@@ -1,4 +1,5 @@
 #include "Data.h"
+#define line cout << "________________________________" << endl;
 
 Data::Data() {
 	fio.surname = "";
@@ -71,10 +72,20 @@ void Data::Print() {
 	cout << "Группа: " << group.group << endl;
 	cout << "Номер зачётной книжки: " << exambook.exambook << endl;
 	cout << "Пол: " << sex.sex << endl;
-	cout << "Сессия номер: " << sesia.sesia << endl;
+	for (int i = 0; i <= sesia.sesia_count; i++) {
+		cout << "Сессия: " << sesia.sesia[i] << endl;
+		for (int j = 0; j <= sesia.subject_count; j++) {
+			cout << "Предмет: " << sesia.subject[j] << " " << "Оценка: " << sesia.mark[j] << endl;
+		}
+	}
+	/*cout << "Сессия номер: " << sesia.sesia << endl;
 	cout << "Предмет: " << sesia.subject << endl;
-	cout << "Оценка: " << sesia.mark << endl;
+	cout << "Оценка: " << sesia.mark << endl;*/
 }
+
+//void Data::Print(int subject_count) {
+//	for
+//}
 
 void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_) {
 	fio.surname = fio_.surname;

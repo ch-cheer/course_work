@@ -45,6 +45,7 @@ struct Sex {
 struct Sesia {
 	string subject[9];
 	int mark[10], sesia[10];
+	int subject_count, sesia_count;
 };
 
 class Data {
@@ -64,6 +65,7 @@ public:
 	~Data();
 
 	void Print();
+	/*void Print(int subject_count);*/
 	void DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
 
 	Fio GetFio() { return fio; }
