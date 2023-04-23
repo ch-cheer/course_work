@@ -22,12 +22,14 @@ Data::Data() {
 
 	sex.sex = "";
 
-	for (int i = 0; i <= 8; i++) {
-		sesia.subject[i] = "";
-	}
+	sesia.sesia_count = 0;
+	sesia.subject_count = 0;
 	for (int i = 0; i <= 9; i++) {
-		sesia.mark[i] = 0;
 		sesia.sesia[i] = 0;
+		for (int j = 0; j <= 8; j++) {
+			sesia.subject[j] = "";
+			sesia.mark[j] = 0;
+		}
 	}
 }
 
@@ -52,12 +54,14 @@ Data::Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut inst
 
 	sex.sex = sex_.sex;
 
-	for (int i = 0; i <= 8; i++) {
-		sesia.subject[i] = sesia_.subject[i];
-	}
+	sesia.sesia_count = sesia_.sesia_count;
+	sesia.subject_count = sesia_.subject_count;
 	for (int i = 0; i <= 9; i++) {
-		sesia.mark[i] = sesia_.mark[i];
 		sesia.sesia[i] = sesia_.sesia[i];
+		for (int j = 0; j <= 8; j++) {
+			sesia.subject[j] = sesia_.subject[j];
+			sesia.mark[j] = sesia_.mark[j];
+		}
 	}
 }
 
@@ -74,18 +78,17 @@ void Data::Print() {
 	cout << "Пол: " << sex.sex << endl;
 	for (int i = 0; i <= sesia.sesia_count; i++) {
 		cout << "Сессия: " << sesia.sesia[i] << endl;
+		line
 		for (int j = 0; j <= sesia.subject_count; j++) {
-			cout << "Предмет: " << sesia.subject[j] << " " << "Оценка: " << sesia.mark[j] << endl;
+			cout << "Предмет: " << sesia.subject[j] << endl;
+			cout << "Оценка: " << sesia.mark[j] << endl << endl;
 		}
+		line
 	}
 	/*cout << "Сессия номер: " << sesia.sesia << endl;
 	cout << "Предмет: " << sesia.subject << endl;
 	cout << "Оценка: " << sesia.mark << endl;*/
 }
-
-//void Data::Print(int subject_count) {
-//	for
-//}
 
 void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_) {
 	fio.surname = fio_.surname;
@@ -108,13 +111,23 @@ void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Ins
 
 	sex.sex = sex_.sex;
 
-	for (int i = 0; i <= 8; i++) {
+	sesia.sesia_count = sesia_.sesia_count;
+	sesia.subject_count = sesia_.subject_count;
+	for (int i = 0; i <= 9; i++) {
+		sesia.sesia[i] = sesia_.sesia[i];
+		for (int j = 0; j <= 8; j++) {
+			sesia.subject[j] = sesia_.subject[j];
+			sesia.mark[j] = sesia_.mark[j];
+		}
+	}
+
+	/*for (int i = 0; i <= 8; i++) {
 		sesia.subject[i] = sesia_.subject[i];
 	}
 	for (int i = 0; i <= 9; i++) {
 		sesia.mark[i] = sesia_.mark[i];
 		sesia.sesia[i] = sesia_.sesia[i];
-	}
+	}*/
 }
 
 Data& Data::operator=(Data d_o) {
@@ -138,12 +151,14 @@ Data& Data::operator=(Data d_o) {
 
 	this->sex.sex = d_o.sex.sex;
 
-	for (int i = 0; i <= 8; i++) {
-		this->sesia.subject[i] = d_o.sesia.subject[i];
-	}
+	this->sesia.sesia_count = d_o.sesia.sesia_count;
+	this->sesia.subject_count = d_o.sesia.subject_count;
 	for (int i = 0; i <= 9; i++) {
-		this->sesia.mark[i] = d_o.sesia.mark[i];
 		this->sesia.sesia[i] = d_o.sesia.sesia[i];
+		for (int j = 0; j <= 8; j++) {
+			this->sesia.subject[j] = d_o.sesia.subject[j];
+			this->sesia.mark[j] = d_o.sesia.mark[j];
+		}
 	}
 	return *this;
 }
