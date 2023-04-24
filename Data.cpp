@@ -1,5 +1,6 @@
 #include "Data.h"
-#define line cout << "________________________________" << endl;
+#include <iomanip>
+#define line cout << "--------------------------------------------------" << endl;
 
 Data::Data() {
 	fio.surname = "";
@@ -24,9 +25,9 @@ Data::Data() {
 
 	sesia.sesia_count = 0;
 	sesia.subject_count = 0;
-	for (int i = 0; i <= 9; i++) {
+	for (int i = 0; i <= 8; i++) {
 		sesia.sesia[i] = 0;
-		for (int j = 0; j <= 8; j++) {
+		for (int j = 0; j <= 9; j++) {
 			sesia.subject[j] = "";
 			sesia.mark[j] = 0;
 		}
@@ -56,9 +57,9 @@ Data::Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut inst
 
 	sesia.sesia_count = sesia_.sesia_count;
 	sesia.subject_count = sesia_.subject_count;
-	for (int i = 0; i <= 9; i++) {
+	for (int i = 0; i <= 8; i++) {
 		sesia.sesia[i] = sesia_.sesia[i];
-		for (int j = 0; j <= 8; j++) {
+		for (int j = 0; j <= 9; j++) {
 			sesia.subject[j] = sesia_.subject[j];
 			sesia.mark[j] = sesia_.mark[j];
 		}
@@ -68,26 +69,29 @@ Data::Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut inst
 Data::~Data() {}
 
 void Data::Print() {
-	cout << "ФИО: " << fio.surname << " " << fio.name << " " << fio.fathername << endl;
-	cout << "Дата рождения: " << birthdate.day << "." << birthdate.month << "." << birthdate.year << endl;
-	cout << "Год поступления: " << univeryear.univeryear << endl;
-	cout << "Институт (факультет): " << institut.institut << endl;
-	cout << "Кафедра: " << kafedra.kafedra << endl;
-	cout << "Группа: " << group.group << endl;
-	cout << "Номер зачётной книжки: " << exambook.exambook << endl;
-	cout << "Пол: " << sex.sex << endl;
+	line
+	cout << "   | " << "ФИО: " << fio.surname << " " << fio.name << " " << fio.fathername << endl;
+	cout << "   | " << "Дата рождения: " << birthdate.day << "." << birthdate.month << "." << birthdate.year << endl;
+	cout << "   | " << "Год поступления: " << univeryear.univeryear << endl;
+	cout << "   | " << "Институт (факультет): " << institut.institut << endl;
+	cout << "   | " << "Кафедра: " << kafedra.kafedra << endl;
+	cout << "   | " << "Группа: " << group.group << endl;
+	cout << "   | " << "Номер зачётной книжки: " << exambook.exambook << endl;
+	cout << "   | " << "Пол: " << sex.sex << endl;
+	line
 	for (int i = 0; i <= sesia.sesia_count; i++) {
-		cout << "Сессия: " << sesia.sesia[i] << endl;
+		cout << "Сессия: " << left << sesia.sesia[i] << endl;
 		line
+		cout << left << setw(2) << "№" << " | " << left << setw(35) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl;
 		for (int j = 0; j <= sesia.subject_count; j++) {
-			cout << "Предмет: " << sesia.subject[j] << endl;
-			cout << "Оценка: " << sesia.mark[j] << endl << endl;
+			cout << left << setw(2) << j+1 << " | " << left << setw(35) << sesia.subject[j] << " | " << left << setw(8) << sesia.mark[j] << endl;
 		}
 		line
 	}
-	/*cout << "Сессия номер: " << sesia.sesia << endl;
-	cout << "Предмет: " << sesia.subject << endl;
-	cout << "Оценка: " << sesia.mark << endl;*/
+}
+
+void DataChange() {
+
 }
 
 void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_) {
@@ -113,21 +117,13 @@ void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Ins
 
 	sesia.sesia_count = sesia_.sesia_count;
 	sesia.subject_count = sesia_.subject_count;
-	for (int i = 0; i <= 9; i++) {
+	for (int i = 0; i <= 8; i++) {
 		sesia.sesia[i] = sesia_.sesia[i];
-		for (int j = 0; j <= 8; j++) {
+		for (int j = 0; j <= 9; j++) {
 			sesia.subject[j] = sesia_.subject[j];
 			sesia.mark[j] = sesia_.mark[j];
 		}
 	}
-
-	/*for (int i = 0; i <= 8; i++) {
-		sesia.subject[i] = sesia_.subject[i];
-	}
-	for (int i = 0; i <= 9; i++) {
-		sesia.mark[i] = sesia_.mark[i];
-		sesia.sesia[i] = sesia_.sesia[i];
-	}*/
 }
 
 Data& Data::operator=(Data d_o) {
@@ -153,9 +149,9 @@ Data& Data::operator=(Data d_o) {
 
 	this->sesia.sesia_count = d_o.sesia.sesia_count;
 	this->sesia.subject_count = d_o.sesia.subject_count;
-	for (int i = 0; i <= 9; i++) {
+	for (int i = 0; i <= 8; i++) {
 		this->sesia.sesia[i] = d_o.sesia.sesia[i];
-		for (int j = 0; j <= 8; j++) {
+		for (int j = 0; j <= 9; j++) {
 			this->sesia.subject[j] = d_o.sesia.subject[j];
 			this->sesia.mark[j] = d_o.sesia.mark[j];
 		}

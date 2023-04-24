@@ -1,4 +1,5 @@
 #include "Func.h"
+#define uwu cout << " ^ W ^ " << endl;
 
 void DataEntry(Data* (&d), int& n) {
 	Fio fio;
@@ -80,28 +81,19 @@ void DataEntry(Data* (&d), int& n) {
 			for (int h = 0; h <= sesia.subject_count; h++) {
 				cl->clear();
 				cl->setLabel("Введите предмет: ");
-				sesia.subject[h] = cl->getData(editType::all);
+				sesia.subject[h] = cl->getData(editType::onlyAlpha, 20);
 				cl->clear();
 				cl->setLabel("Введите оценку: ");
 				sesia.mark[h] = cl->getData(editType::onlyDigit, 1, 5);
 			}
 		}
 
-		cl->clear();
-		cl->setLabel("Введите сессию: ");
-		/*sesia.sesia = cl->getData(editType::onlyDigit, 1, 9);
-		cl->clear();
-		cl->setLabel("Введите предмет: ");
-		sesia.subject = cl->getData(editType::all);
-		cl->clear();
-		cl->setLabel("Введите оценку: ");
-		sesia.mark = cl->getData(editType::onlyDigit, 1, 5);*/
-
 		d[i].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
 
-		cout << "___________________________\n";
+		cout << endl;
 	}
-}
+} 
+//работает
 
 void DataRead(Data* (&d), int& n, string FileName) {
 	ifstream reading(FileName);
@@ -145,15 +137,17 @@ void DataRead(Data* (&d), int& n, string FileName) {
 
 	reading.close();
 }
+//не работает
 
 void Print(Data* d, int n) {
 	for (int i = 0; i < n; i++) {
-		cout << "Данные номер: " << i + 1 << endl;
+		cout << "Данные о студенте номер: " << i + 1 << endl;
 
 		d[i].Print();
-		cout << "________________________\n";
+		uwu
 	}
 }
+//работает
 
 void DataChange(Data* d, int n) {
 	Fio fio;
@@ -165,12 +159,18 @@ void DataChange(Data* d, int n) {
 	Exambook exambook;
 	Sex sex;
 	Sesia sesia;
+
 	int _n;
 	int chm;
 	int chfio;
 	int chbthd;
 	int chses;
+	int sesia_num;
+	int chsub;
+	int subject_num;
+	string subject_item;
 
+	cout << sesia.sesia_count << " " << sesia.subject_count << endl << sesia.mark << " " << sesia.sesia << " " << sesia.subject << endl << fio.name << endl;
 r3:cout << "Введите номер нужного элемента (от 1 до " << n << "): ";
 	cin >> _n;
 	_n--;
@@ -289,39 +289,128 @@ r3:cout << "Введите номер нужного элемента (от 1 до " << n << "): ";
 			cl->setLabel("Введите пол: ");
 			sex.sex = cl->getData(editType::onlyAlpha, 10);
 			break;
-		case 9:
-			system("cls");
-			cout << "Выберите действие: " << endl
-					<< "(0) Вернуться" << endl
-					<< "(1) Изменить предмет " << endl
-					<< "(2) Изменить оценку" << endl
-					<< "Введите значение: ";
-			cin >> chses;
-			switch (chses)
-			{
-			case 0:
-				system("cls");
-				goto r3;
-				break;
-			case 1:
-				cl->clear();
-				cl->setLabel("Введите предмет: ");
-				//sesia.subject = cl->getData(editType::all);
-				break;
-			case 2:
-				cl->clear();
-				cl->setLabel("Введите оценку: ");
-				//sesia.mark = cl->getData(editType::onlyDigit, 1, 5);
-				break;
-			default:
-				break;
+		case 9: //не рботает
+		r2:cl->clear();
+			cl->setLabel("Введите сессию");
+			sesia_num = cl->getData(editType::onlyDigit, 1, 9);
+			for (int h = 0; h <= 8; h++) {
+				if (sesia_num == sesia.sesia[h]) {
+					system("cls");
+					cout << "Выберите действие: " << endl
+						<< "(0) Вернуться" << endl
+						<< "(1) Изменить предмет " << endl
+						<< "(2) Изменить оценку" << endl
+						<< "Введите значение: ";
+					chses = cl->getData(editType::onlyDigit, 0, 2);
+					switch (chses) {
+					case 0:
+						system("cls");
+						goto r3;
+						break;
+					case 1:
+						system("cls");
+						cout << "Выберите действие: " << endl
+							<< "(0) Вернуться" << endl
+							<< "(1) Ввести номер предмета, который хотите изменить" << endl
+							<< "(2) Ввести предмет, который хотите изменить" << endl
+							<< "Введите значение: ";
+						chsub = cl->getData(editType::onlyDigit, 0, 2);
+						switch (chsub)
+						{
+						case 0:
+							system("cls");
+							goto r2;
+							break;
+						case 1:
+							cl->clear();
+							cl->setLabel("Введите номер предмета, который хотите изменить: ");
+							subject_num = cl->getData(editType::onlyDigit, 1, 10);
+							cout << endl;
+							subject_num = subject_num - 1;
+							cl->setLabel("Введите новый предмет: ");
+							sesia.subject[subject_num] = cl->getData(editType::onlyAlpha, 20);
+							break;
+						case 2:
+							cl->clear();
+							cl->setLabel("Введите предмет, который хотите изменить: ");
+							subject_item = cl->getData(editType::onlyAlpha, 20);
+							cout << endl;
+							for (int i = 0; i <= 9; i++) {
+								if (subject_item == sesia.subject[i]) {
+									cl->setLabel("Введите новый предмет: ");
+									sesia.subject[i] = cl->getData(editType::onlyAlpha, 20);
+									break;
+								}
+								else {
+									cout << "Ошибка: данные: " << subject_item << " введены некорректно" << endl;
+									system("pause");
+									goto r2;
+								}
+							}
+						default:
+							break;
+						}
+						break;
+					case 2:
+						system("cls");
+						cout << "Выберите действие: " << endl
+							<< "(0) Вернуться" << endl
+							<< "(1) Ввести номер предмета, оценку которого хотите изменить" << endl
+							<< "(2) Ввести предмет, оценку которого хотите изменить" << endl
+							<< "Введите значение: ";
+						chsub = cl->getData(editType::onlyDigit, 0, 2);
+						switch (chsub)
+						{
+						case 0:
+							system("cls");
+							goto r2;
+							break;
+						case 1:
+							cl->clear();
+							cl->setLabel("Введите номер предмета, оценку которого хотите изменить: ");
+							subject_num = cl->getData(editType::onlyDigit, 1, 10);
+							cout << endl;
+							subject_num = subject_num - 1;
+							cl->setLabel("Введите новую оценку: ");
+							sesia.mark[subject_num] = cl->getData(editType::onlyDigit, 1, 5);
+							break;
+						case 2:
+							cl->clear();
+							cl->setLabel("Введите предмет, который хотите изменить: ");
+							subject_item = cl->getData(editType::onlyAlpha, 20);
+							cout << endl;
+							for (int i = 0; i <= 9; i++) {
+								if (subject_item == sesia.subject[i]) {
+									cl->setLabel("Введите новую оценку: ");
+									sesia.mark[i] = cl->getData(editType::onlyDigit, 1, 5);
+									break;
+								}
+								else {
+									cout << "Ошибка: данные: " << subject_item << " введены некорректно" << endl;
+									system("pause");
+									goto r2;
+								}
+							}
+						default:
+							break;
+						}
+						break;
+					default:
+						break;
+					}
+				}
+				else {
+					cout << "Ошибка: введеное значение: " << sesia_num << " выходит из диапазона (1, " << sesia.sesia_count << ")" << endl;
+					system("Pause");
+					goto r2;
+				}
 			}
 			break;
 		default:
 			break;
 		}
 
-		d[_n].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
+		d[_n].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia); //разобраться после доработки
 	}
 	else {
 		cout << "Номер введён неверно" << endl;
@@ -330,6 +419,7 @@ r3:cout << "Введите номер нужного элемента (от 1 до " << n << "): ";
 		goto r3;
 	}
 }
+//работает криво
 
 void Copy(Data* d_n, Data* d_o, int n) {
 	for (int i = 0; i < n; i++) {

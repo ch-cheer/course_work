@@ -43,8 +43,8 @@ struct Sex {
 };
 
 struct Sesia {
-	string subject[9];
-	unsigned int mark[9], sesia[10];
+	string subject[10];
+	unsigned int mark[10], sesia[9];
 	short unsigned int subject_count, sesia_count;
 };
 
@@ -65,7 +65,6 @@ public:
 	~Data();
 
 	void Print();
-	/*void Print(int subject_count);*/
 	void DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
 
 	Fio GetFio() { return fio; }
@@ -139,9 +138,9 @@ public:
 	string getData(enum class editType et) {
 		char ch = 0;
 		cout << label << endl << data;
-		while (ch != 13) { //13 - код enter чтобы ввести значения
+		while (ch != 13) {
 			ch = _getch();
-			if (ch == 8) {  // Backspace удалить символ
+			if (ch == 8) {
 				if (data.length() > 0) {
 					data.pop_back();
 					system("cls");
@@ -173,7 +172,9 @@ public:
 			if (isStringDigit(data))
 				num = atoi(data.c_str());
 			if (not (num >= min and num <= max)) {
-				cout << endl << "Ошибка: Число которое вы ввели: " << num << " Выходит из диапазона (" << min << "; " << max << ") ";
+				cout << endl << "Ошибка: Число которое вы ввели: " << num << " Выходит из диапазона (" << min << "; " << max << ") " << endl;
+				system("pause");
+				clear();
 				getData(et, min, max);
 			}
 			if (isStringDigit(data))
@@ -185,7 +186,9 @@ public:
 		if (et == editType::onlyAlpha) {
 			getData(et);
 			if (data.length() > len) {
-				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " ";
+				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " " << endl;
+				system("pause");
+				clear();
 				getData(et, len);
 			}
 			return data;
