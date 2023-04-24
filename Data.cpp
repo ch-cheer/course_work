@@ -1,6 +1,6 @@
 #include "Data.h"
 #include <iomanip>
-#define line cout << "--------------------------------------------------" << endl;
+#define line cout << "----------------------------------------------------------------------------------------------------" << endl;
 
 Data::Data() {
 	fio.surname = "";
@@ -70,28 +70,24 @@ Data::~Data() {}
 
 void Data::Print() {
 	line
-	cout << "   | " << "ФИО: " << fio.surname << " " << fio.name << " " << fio.fathername << endl;
-	cout << "   | " << "Дата рождения: " << birthdate.day << "." << birthdate.month << "." << birthdate.year << endl;
-	cout << "   | " << "Год поступления: " << univeryear.univeryear << endl;
-	cout << "   | " << "Институт (факультет): " << institut.institut << endl;
-	cout << "   | " << "Кафедра: " << kafedra.kafedra << endl;
-	cout << "   | " << "Группа: " << group.group << endl;
-	cout << "   | " << "Номер зачётной книжки: " << exambook.exambook << endl;
-	cout << "   | " << "Пол: " << sex.sex << endl;
+	cout << "   | " << left << setw(25) << "ФИО: " << "| " << fio.surname << " " << fio.name << " " << fio.fathername << endl;
+	cout << "   | " << left << setw(25) << "Дата рождения: " << "| " << birthdate.day << "." << birthdate.month << "." << birthdate.year << endl;
+	cout << "   | " << left << setw(25) << "Год поступления: " << "| " << univeryear.univeryear << endl;
+	cout << "   | " << left << setw(25) << "Институт (факультет): " << "| " << institut.institut << endl;
+	cout << "   | " << left << setw(25) << "Кафедра: " << "| " << kafedra.kafedra << endl;
+	cout << "   | " << left << setw(25) << "Группа: " << "| " << group.group << endl;
+	cout << "   | " << left << setw(25) << "Номер зачётной книжки: " << "| " << exambook.exambook << endl;
+	cout << "   | " << left << setw(25) << "Пол: " << "| " << sex.sex << endl;
 	line
 	for (int i = 0; i <= sesia.sesia_count; i++) {
 		cout << "Сессия: " << left << sesia.sesia[i] << endl;
 		line
-		cout << left << setw(2) << "№" << " | " << left << setw(35) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl;
+		cout << left << setw(2) << "№" << " | " << left << setw(85) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl << endl;
 		for (int j = 0; j <= sesia.subject_count; j++) {
-			cout << left << setw(2) << j+1 << " | " << left << setw(35) << sesia.subject[j] << " | " << left << setw(8) << sesia.mark[j] << endl;
+			cout << left << setw(2) << j+1 << " | " << left << setw(85) << sesia.subject[j] << " | " << left << setw(8) << sesia.mark[j] << endl;
 		}
 		line
 	}
-}
-
-void DataChange() {
-
 }
 
 void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_) {
@@ -115,6 +111,54 @@ void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Ins
 
 	sex.sex = sex_.sex;
 
+	sesia.sesia_count = sesia_.sesia_count;
+	sesia.subject_count = sesia_.subject_count;
+	for (int i = 0; i <= 8; i++) {
+		sesia.sesia[i] = sesia_.sesia[i];
+		for (int j = 0; j <= 9; j++) {
+			sesia.subject[j] = sesia_.subject[j];
+			sesia.mark[j] = sesia_.mark[j];
+		}
+	}
+}
+
+void Data::DataEntry(Fio fio_) {
+	fio.surname = fio_.surname;
+	fio.name = fio_.name;
+	fio.fathername = fio_.fathername;
+}
+
+void Data::DataEntry(Birthdate birthdate_) {
+	birthdate.day = birthdate_.day;
+	birthdate.month = birthdate_.month;
+	birthdate.year = birthdate_.year;
+}
+
+void Data::DataEntry(Univeryear univeryear_) {
+	univeryear.univeryear = univeryear_.univeryear;
+}
+
+void Data::DataEntry(Institut institut_) {
+	institut.institut = institut_.institut;
+}
+
+void Data::DataEntry(Kafedra kafedra_) {
+	kafedra.kafedra = kafedra_.kafedra;
+}
+
+void Data::DataEntry(Group group_) {
+	group.group = group_.group;
+}
+
+void Data::DataEntry(Exambook exambook_) {
+	exambook.exambook = exambook_.exambook;
+}
+
+void Data::DataEntry(Sex sex_) {
+	sex.sex = sex_.sex;
+}
+
+void Data::DataEntry(Sesia sesia_) {
 	sesia.sesia_count = sesia_.sesia_count;
 	sesia.subject_count = sesia_.subject_count;
 	for (int i = 0; i <= 8; i++) {

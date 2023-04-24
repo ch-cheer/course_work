@@ -66,6 +66,17 @@ public:
 
 	void Print();
 	void DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
+	/*void SesiaEdit();*/
+
+	void DataEntry(Fio fio_);
+	void DataEntry(Birthdate birthdate_);
+	void DataEntry(Univeryear univeryear_);
+	void DataEntry(Institut institut_);
+	void DataEntry(Kafedra kafedra_);
+	void DataEntry(Group group_);
+	void DataEntry(Exambook exambook_);
+	void DataEntry(Sex sex_);
+	void DataEntry(Sesia sesia_);
 
 	Fio GetFio() { return fio; }
 	Birthdate GetBirthdate() { return birthdate; }
