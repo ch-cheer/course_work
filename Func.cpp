@@ -76,15 +76,15 @@ void DataEntry(Data* (&d), int& n) {
 			
 			cl->clear();
 			cl->setLabel("Введите количество предметов: ");
-			sesia.subject_count = cl->getData(editType::onlyDigit, 1, 10);
-			sesia.subject_count = sesia.subject_count - 1;
-			for (int h = 0; h <= sesia.subject_count; h++) {
+			sesia.subject_count[n] = cl->getData(editType::onlyDigit, 1, 10);
+			sesia.subject_count[n] = sesia.subject_count[n] - 1;
+			for (int h = 0; h <= sesia.subject_count[n]; h++) {
 				cl->clear();
 				cl->setLabel("Введите предмет: ");
-				sesia.subject[h] = cl->getData(editType::onlyAlpha, 20);
+				sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::onlyAlpha, 20);
 				cl->clear();
 				cl->setLabel("Введите оценку: ");
-				sesia.mark[h] = cl->getData(editType::onlyDigit, 1, 5);
+				sesia.mark[sesia.sesia[n]][h] = cl->getData(editType::onlyDigit, 1, 5);
 			}
 		}
 
@@ -173,7 +173,7 @@ void DataChange(Data* d, int n) {
 	string subject_item;
 
 
-	cout << "Введите номер нужного элемента (от 1 до " << n << "): ";
+	cout << "Введите номер студента (от 1 до " << n << "): ";
 	cin >> _n;
 	_n--;
 	
@@ -326,29 +326,31 @@ void DataChange(Data* d, int n) {
 			break;
 		case 9:
 			sesia.sesia_count = d[_n].GetSesia().sesia_count;
-			sesia.subject_count = d[_n].GetSesia().subject_count;
 			for (int i = 0; i <= sesia.sesia_count; i++) {
 				sesia.sesia[i] = d[_n].GetSesia().sesia[i];
-				for (int j = 0; j <= sesia.subject_count; j++) {
-					sesia.mark[j] = d[_n].GetSesia().mark[j];
-					sesia.subject[j] = d[_n].GetSesia().subject[j];
+				sesia.subject_count[i] = d[_n].GetSesia().subject_count[i];
+				for (int j = 0; j <= sesia.subject_count[i]; j++) {
+					sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+					sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
 				}
 			}
 
 			system("cls");
-			cout << "Количество сессий: " << sesia.sesia_count + 1 << endl;
 			cl->setLabel("Введите сессию, в которой необходимо изменить данные");
-			sesia_num = cl->getData(editType::onlyDigit, 1, 8);
+			sesia_num = cl->getData(editType::onlyDigit, 1, 9);
 			for (int i = 0; i <= sesia.sesia_count; i++) {
 				if (sesia_num == sesia.sesia[i]) {
-					cl->clear();
+					system("cls");
 					cout << "Выберите действие: " << endl
 						<< "(0) Вернуться" << endl
 						<< "(1) Изменить предмет " << endl
 						<< "(2) Изменить оценку" << endl
 						<< "Введите значение: ";
-					chses = cl->getData(editType::onlyDigit, 0, 2);
+					cin >> chses;
 					switch (chses) {
+					case 0:
+						cl->clear();
+						break;
 					case 1:
 						cl->clear();
 						cout << "Выберите действие: " << endl
@@ -356,88 +358,107 @@ void DataChange(Data* d, int n) {
 							<< "(1) Ввести номер предмета, который хотите изменить" << endl
 							<< "(2) Ввести предмет, который хотите изменить" << endl
 							<< "Введите значение: ";
-						chsub = cl->getData(editType::onlyDigit, 0, 2);
+						cin >> chsub;
 						switch (chsub) {
 						case 0:
+							cl->clear();
 							break;
 						case 1:
 							cl->clear();
 							cl->setLabel("Введите номер предмета, который хотите изменить: ");
-							subject_num = cl->getData(editType::onlyDigit, 1, sesia.subject_count + 1);
+							subject_num = cl->getData(editType::onlyDigit, 1, sesia.subject_count[i] + 1);
 							subject_num = subject_num - 1;
-							for (int j = 0; j <= sesia.subject_count; j++) {
-								sesia.subject[j] = d[_n].GetSesia().subject[j];
+							for (int j = 0; j <= sesia.subject_count[i]; j++) {
+								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
 								if (j == subject_num) {
 									cl->clear();
 									cl->setLabel("Введите новый предмет: ");
-									sesia.subject[j] = cl->getData(editType::onlyAlpha, 20);
+									sesia.subject[sesia.sesia[i]][j] = cl->getData(editType::onlyAlpha, 20);
 								}
-								break;
 							}
 							break;
 						case 2:
 							cl->clear();
 							cl->setLabel("Введите предмет, который хотите изменить: ");
 							subject_item = cl->getData(editType::onlyAlpha, 20);
-							for (int j = 0; j <= sesia.subject_count; j++) {
-								sesia.subject[j] = d[_n].GetSesia().subject[j];
-								if (subject_item == sesia.subject[j]) {
+							for (int j = 0; j <= sesia.subject_count[i]; j++) {
+								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+								if (subject_item == sesia.subject[sesia.sesia[i]][j]) {
 									cl->clear();
 									cl->setLabel("Введите новый предмет: ");
-									sesia.subject[j] = cl->getData(editType::onlyAlpha, 20);
+									sesia.subject[sesia.sesia[i]][j] = cl->getData(editType::onlyAlpha, 20);
 								}
-								break;
 							}
 							break;
 						default:
 							break;
 						}
+						break;
 					case 2:
-						cl->clear();
+						system("cls");
 						cout << "Выберите действие: " << endl
 							<< "(0) Вернуться" << endl
 							<< "(1) Ввести номер предмета, оценку которого хотите изменить" << endl
 							<< "(2) Ввести предмет, оценку которого хотите изменить" << endl
 							<< "Введите значение: ";
-						chsub = cl->getData(editType::onlyDigit, 0, 2);
+						cin >> chsub;
 						switch (chsub) {
 						case 0:
+							cl->clear();
 							break;
 						case 1:
 							cl->clear();
 							cl->setLabel("Введите номер предмета, оценку которого хотите изменить: ");
-							subject_num = cl->getData(editType::onlyDigit, 1, sesia.subject_count + 1);
+							subject_num = cl->getData(editType::onlyDigit, 1, sesia.subject_count[i] + 1);
 							subject_num = subject_num - 1;
-							for (int j = 0; j <= sesia.subject_count; j++) {
-								sesia.subject[j] = d[_n].GetSesia().subject[j];
+							for (int j = 0; j <= sesia.subject_count[i]; j++) {
+								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
 								if (j == subject_num) {
 									cl->clear();
-									cl->setLabel("Введите новый предмет: ");
-									sesia.mark[j] = cl->getData(editType::onlyDigit, 1, 5);
+									cl->setLabel("Введите новую оценку: ");
+									sesia.mark[sesia.sesia[i]][j] = cl->getData(editType::onlyDigit, 1, 5);
 								}
-								break;
 							}
 							break;
 						case 2:
 							cl->clear();
-							cl->setLabel("Введите предмет, который хотите изменить: ");
+							cl->setLabel("Введите предмет, оценку которого хотите изменить хотите изменить: ");
 							subject_item = cl->getData(editType::onlyAlpha, 20);
-							for (int j = 0; j <= sesia.subject_count; j++) {
-								sesia.subject[j] = d[_n].GetSesia().subject[j];
-								if (subject_item == sesia.subject[j]) {
+							for (int j = 0; j <= sesia.subject_count[i]; j++) {
+								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+								if (subject_item == sesia.subject[sesia.sesia[i]][j]) {
 									cl->clear();
-									cl->setLabel("Введите новый предмет: ");
-									sesia.mark[j] = cl->getData(editType::onlyDigit, 1, 5);
+									cl->setLabel("Введите новую оценку: ");
+									sesia.mark[sesia.sesia[i]][j] = cl->getData(editType::onlyDigit, 1, 5);
 								}
-								break;
 							}
 							break;
+						default:
+							break;
 						}
+						break;
 					default:
 						break;
 					}
 				}
 			}
+
+			/*sesia.sesia_count = d[_n].GetSesia().sesia_count;
+			for (int i = 0; i <= sesia.sesia_count; i++) {
+				if (sesia.sesia[i] == 0) {
+					sesia.sesia[i] = d[_n].GetSesia().sesia[i];
+				}
+				sesia.subject_count[i] = d[_n].GetSesia().subject_count[i];
+				for (int j = 0; j <= sesia.subject_count[i]; j++) {
+					if (sesia.subject[i][j] == "") {
+						sesia.subject[i][j] = d[_n].GetSesia().subject[i][j];
+					}
+					if (sesia.mark[i][j] == 0) {
+						sesia.mark[i][j] = d[_n].GetSesia().mark[i][j];
+					}
+				}
+			}*/
+
 			d[_n].DataEntry(sesia);
 			break;
 		default:
