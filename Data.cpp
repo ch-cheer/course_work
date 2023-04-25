@@ -80,11 +80,11 @@ void Data::Print() {
 	cout << "   | " << left << setw(25) << "Пол: " << "| " << sex.sex << endl;
 	line
 	for (int i = 0; i <= sesia.sesia_count; i++) {
-		cout << "Сессия: " << left << sesia.sesia[i] << endl;
+		cout << " Сессия: " << left << sesia.sesia[i] << endl;
 		line
-		cout << left << setw(2) << "№" << " | " << left << setw(85) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl << endl;
+		cout << left << setw(2) << " № " << "| " << left << setw(85) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl << endl;
 		for (int j = 0; j <= sesia.subject_count; j++) {
-			cout << left << setw(2) << j+1 << " | " << left << setw(85) << sesia.subject[j] << " | " << left << setw(8) << sesia.mark[j] << endl;
+			cout << " " << left << setw(2) << j + 1 << "| " << left << setw(85) << sesia.subject[j] << " | " << left << setw(8) << sesia.mark[j] << endl;
 		}
 		line
 	}

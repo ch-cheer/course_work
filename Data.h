@@ -66,7 +66,6 @@ public:
 
 	void Print();
 	void DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
-	/*void SesiaEdit();*/
 
 	void DataEntry(Fio fio_);
 	void DataEntry(Birthdate birthdate_);

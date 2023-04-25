@@ -141,7 +141,7 @@ void DataRead(Data* (&d), int& n, string FileName) {
 
 void Print(Data* d, int n) {
 	for (int i = 0; i < n; i++) {
-		cout << "Данные о студенте номер: " << i + 1 << endl;
+		cout << " Данные о студенте номер: " << i + 1 << endl;
 
 		d[i].Print();
 		cout << endl;
@@ -324,19 +324,24 @@ void DataChange(Data* d, int n) {
 			sex.sex = cl->getData(editType::onlyAlpha, 10);
 			d[_n].DataEntry(sex);
 			break;
-		case 9: //не робит
+		case 9:
 			sesia.sesia_count = d[_n].GetSesia().sesia_count;
 			sesia.subject_count = d[_n].GetSesia().subject_count;
+			for (int i = 0; i <= sesia.sesia_count; i++) {
+				sesia.sesia[i] = d[_n].GetSesia().sesia[i];
+				for (int j = 0; j <= sesia.subject_count; j++) {
+					sesia.mark[j] = d[_n].GetSesia().mark[j];
+					sesia.subject[j] = d[_n].GetSesia().subject[j];
+				}
+			}
 
 			system("cls");
 			cout << "Количество сессий: " << sesia.sesia_count + 1 << endl;
 			cl->setLabel("Введите сессию, в которой необходимо изменить данные");
 			sesia_num = cl->getData(editType::onlyDigit, 1, 8);
-			sesia_num--;
 			for (int i = 0; i <= sesia.sesia_count; i++) {
-				sesia.sesia[i] = d[_n].GetSesia().sesia[i];
 				if (sesia_num == sesia.sesia[i]) {
-					system("cls");
+					cl->clear();
 					cout << "Выберите действие: " << endl
 						<< "(0) Вернуться" << endl
 						<< "(1) Изменить предмет " << endl
@@ -345,7 +350,7 @@ void DataChange(Data* d, int n) {
 					chses = cl->getData(editType::onlyDigit, 0, 2);
 					switch (chses) {
 					case 1:
-						system("cls");
+						cl->clear();
 						cout << "Выберите действие: " << endl
 							<< "(0) Вернуться" << endl
 							<< "(1) Ввести номер предмета, который хотите изменить" << endl
@@ -353,10 +358,12 @@ void DataChange(Data* d, int n) {
 							<< "Введите значение: ";
 						chsub = cl->getData(editType::onlyDigit, 0, 2);
 						switch (chsub) {
+						case 0:
+							break;
 						case 1:
 							cl->clear();
 							cl->setLabel("Введите номер предмета, который хотите изменить: ");
-							subject_num = cl->getData(editType::onlyDigit, 1, sesia.subject_count);
+							subject_num = cl->getData(editType::onlyDigit, 1, sesia.subject_count + 1);
 							subject_num = subject_num - 1;
 							for (int j = 0; j <= sesia.subject_count; j++) {
 								sesia.subject[j] = d[_n].GetSesia().subject[j];
@@ -385,6 +392,47 @@ void DataChange(Data* d, int n) {
 						default:
 							break;
 						}
+					case 2:
+						cl->clear();
+						cout << "Выберите действие: " << endl
+							<< "(0) Вернуться" << endl
+							<< "(1) Ввести номер предмета, оценку которого хотите изменить" << endl
+							<< "(2) Ввести предмет, оценку которого хотите изменить" << endl
+							<< "Введите значение: ";
+						chsub = cl->getData(editType::onlyDigit, 0, 2);
+						switch (chsub) {
+						case 0:
+							break;
+						case 1:
+							cl->clear();
+							cl->setLabel("Введите номер предмета, оценку которого хотите изменить: ");
+							subject_num = cl->getData(editType::onlyDigit, 1, sesia.subject_count + 1);
+							subject_num = subject_num - 1;
+							for (int j = 0; j <= sesia.subject_count; j++) {
+								sesia.subject[j] = d[_n].GetSesia().subject[j];
+								if (j == subject_num) {
+									cl->clear();
+									cl->setLabel("Введите новый предмет: ");
+									sesia.mark[j] = cl->getData(editType::onlyDigit, 1, 5);
+								}
+								break;
+							}
+							break;
+						case 2:
+							cl->clear();
+							cl->setLabel("Введите предмет, который хотите изменить: ");
+							subject_item = cl->getData(editType::onlyAlpha, 20);
+							for (int j = 0; j <= sesia.subject_count; j++) {
+								sesia.subject[j] = d[_n].GetSesia().subject[j];
+								if (subject_item == sesia.subject[j]) {
+									cl->clear();
+									cl->setLabel("Введите новый предмет: ");
+									sesia.mark[j] = cl->getData(editType::onlyDigit, 1, 5);
+								}
+								break;
+							}
+							break;
+						}
 					default:
 						break;
 					}
@@ -402,7 +450,7 @@ void DataChange(Data* d, int n) {
 		system("cls");
 	}
 }
-//работает (кроме редактора сессий)
+//работает
 
 void Copy(Data* d_n, Data* d_o, int n) {
 	for (int i = 0; i < n; i++) {
