@@ -36,7 +36,7 @@ int main() {
 	int _actions;
 	int _actions_return;
 	string FileName;
-	string bin = ".txt";
+	string bin = ".bin";
 
 	int _size = 0;
 	Data* d = new Data[_size];

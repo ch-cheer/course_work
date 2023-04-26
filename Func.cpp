@@ -96,9 +96,10 @@ void DataEntry(Data* (&d), int& n) {
 //работает
 
 void DataRead(Data* (&d), int& n, string FileName) {
-	ifstream reading(FileName);
+	ifstream reading;
+	reading.open(FileName, ios_base::binary);
 
-	if (reading) {
+	if (reading.is_open()) {
 		Fio fio;
 		Birthdate birthdate;
 		Univeryear univeryear;
@@ -109,23 +110,41 @@ void DataRead(Data* (&d), int& n, string FileName) {
 		Sex sex;
 		Sesia sesia;
 
-		reading >> n;
+		reading.read((char*)&n, sizeof(int));
 
 		d = new Data[n];
 
 		for (int i = 0; i < n; i++) {
 
-			reading >> fio.surname >> fio.name >> fio.fathername;
-			reading >> birthdate.day >> birthdate.month >> birthdate.year;
-			reading >> univeryear.univeryear;
-			reading >> institut.institut;
-			reading >> kafedra.kafedra;
-			reading >> group.group;
-			reading >> exambook.exambook;
-			reading >> sex.sex;
-			/*reading >> sesia.sesia;
-			reading >> sesia.subject;
-			reading >> sesia.mark;*/
+			reading.read((char*)&fio.surname, 20);			
+			reading.read((char*)&fio.name, 20);
+			reading.read((char*)&fio.fathername, 20);
+			//record << d[i].GetFio().surname << " " << d[i].GetFio().name << " " << d[i].GetFio().fathername << endl;
+			/*birthdate.day = d[i].GetBirthdate().day;
+			birthdate.month = d[i].GetBirthdate().month;
+			birthdate.year = d[i].GetBirthdate().year;*/
+
+			reading.read((char*)&birthdate.day, 2);
+			reading.read((char*)&birthdate.month, 2);
+			reading.read((char*)&birthdate.year, 4);
+			//record << d[i].GetBirthdate().day << " " << d[i].GetBirthdate().month << " " << d[i].GetBirthdate().year << endl;
+			/*univeryear.univeryear = d[i].GetUniveryear().univeryear;*/
+			reading.read((char*)&univeryear.univeryear, 20);
+			//record << d[i].GetUniveryear().univeryear << endl;
+			/*institut.institut = d[i].GetInstitut().institut;*/
+			reading.read((char*)&institut.institut, 20);
+			//record << d[i].GetInstitut().institut << endl;
+			/*kafedra.kafedra = d[i].GetKafedra().kafedra;*/
+			reading.read((char*)&kafedra.kafedra, 20);
+			//record << d[i].GetKafedra().kafedra << endl;
+			/*group.group = d[i].GetGroup().group;*/
+			reading.read((char*)&group.group, 20);
+			//record << d[i].GetGroup().group << endl;
+			/*exambook.exambook = d[i].GetExambook().exambook;*/
+			reading.read((char*)&exambook.exambook, 20);
+			//record << d[i].GetExambook().exambook << endl;
+			/*sex.sex = d[i].GetSex().sex;*/
+			reading.read((char*)&sex.sex, 20);
 
 			d[i].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
 		}
@@ -138,7 +157,6 @@ void DataRead(Data* (&d), int& n, string FileName) {
 	reading.close();
 }
 //не работает
-
 
 void Print(Data* d, int n) {
 	for (int i = 0; i < n; i++) {
@@ -623,27 +641,81 @@ void DataSort(Data* d, int n) {
 
 	cout << "Данные отсортированиы\nКоличество сортировок: " << numOfSored << endl;
 }
-//не работает
+//не так работает
 
 void DataSave(Data* d, int n, string FileName) {
-	ofstream record(FileName);
 
-	if (record) {
-		record << n << endl;
+	ofstream record;
+	record.open(FileName, ios_base::binary | ios_base::out);
+	/*if (record.is_open()) {
+		record.write((char*)&n, sizeof(n));
+		for (int i = 0; i < n; i++) {
+			record.write((char*)&d[i].GetFio().surname, sizeof());
+		}
+	}*/
+	if (record.is_open()) {
+		Fio fio;
+		Birthdate birthdate;
+		Univeryear univeryear;
+		Institut institut;
+		Kafedra kafedra;
+		Group group;
+		Exambook exambook;
+		Sex sex;
+		Sesia sesia;
+
+		record.write((char*)&n, 2);
+		//record << n << endl;
 
 		for (int i = 0; i < n; i++) {
-			record << d[i].GetFio().surname << " " << d[i].GetFio().name << " " << d[i].GetFio().fathername << endl;
-			record << d[i].GetBirthdate().day << " " << d[i].GetBirthdate().month << " " << d[i].GetBirthdate().year << endl;
-			record << d[i].GetUniveryear().univeryear << endl;
-			record << d[i].GetInstitut().institut << endl;
-			record << d[i].GetKafedra().kafedra << endl;
-			record << d[i].GetGroup().group << endl;
-			record << d[i].GetExambook().exambook << endl;
-			record << d[i].GetSex().sex << endl;
-			record << d[i].GetSesia().sesia << endl;
-			record << d[i].GetSesia().subject << endl;
-			record << d[i].GetSesia().mark << endl;
+			fio.surname = d[i].GetFio().surname;
+			fio.name = d[i].GetFio().name;
+			fio.fathername = d[i].GetFio().fathername;
+
+			record.write((char*)&fio.surname, 20);
+			record.write((char*)&fio.name, 20);
+			record.write((char*)&fio.fathername, 20);
+			//record << d[i].GetFio().surname << " " << d[i].GetFio().name << " " << d[i].GetFio().fathername << endl;
+			birthdate.day = d[i].GetBirthdate().day;
+			birthdate.month = d[i].GetBirthdate().month;
+			birthdate.year = d[i].GetBirthdate().year;
+
+			record.write((char*)&birthdate.day, 2);
+			record.write((char*)&birthdate.month, 2);
+			record.write((char*)&birthdate.year, 4);
+			//record << d[i].GetBirthdate().day << " " << d[i].GetBirthdate().month << " " << d[i].GetBirthdate().year << endl;
+			univeryear.univeryear = d[i].GetUniveryear().univeryear;
+			record.write((char*)&univeryear.univeryear, 20);
+			//record << d[i].GetUniveryear().univeryear << endl;
+			institut.institut = d[i].GetInstitut().institut;
+			record.write((char*)&institut.institut, 20);
+			//record << d[i].GetInstitut().institut << endl;
+			kafedra.kafedra = d[i].GetKafedra().kafedra;
+			record.write((char*)&kafedra.kafedra, 20);
+			//record << d[i].GetKafedra().kafedra << endl;
+			group.group = d[i].GetGroup().group;
+			record.write((char*)&group.group, 20);
+			//record << d[i].GetGroup().group << endl;
+			exambook.exambook = d[i].GetExambook().exambook;
+			record.write((char*)&exambook.exambook, 20);
+			//record << d[i].GetExambook().exambook << endl;
+			sex.sex = d[i].GetSex().sex;
+			record.write((char*)&sex.sex, 20);
+			//record << d[i].GetSex().sex << endl;
+			sesia.sesia_count = d[i].GetSesia().sesia_count;
+			for (int j = 0; j <= sesia.sesia_count; j++) {
+				sesia.sesia[j] = d[i].GetSesia().sesia[j];
+				//record.write((char*)&sesia.sesia, )
+				record << d[i].GetSesia().sesia[j] << endl;
+				sesia.subject_count[j] = d[i].GetSesia().subject_count[j];
+				record << d[i].GetSesia().subject_count[j] << endl;
+				for (int h = 0; h <= sesia.subject_count[j]; h++) {
+					record << d[i].GetSesia().subject[sesia.sesia[j]][h] << endl;
+					record << d[i].GetSesia().mark[sesia.sesia[j]][h] << endl;
+				}
+				/*record << d[i].GetSesia().subject << endl;
+				record << d[i].GetSesia().mark << endl;*/
+			}
 		}
 	}
 }
-//не работает
