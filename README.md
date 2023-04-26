@@ -20,6 +20,6 @@
 
 <h3><b>Что нового?</b></h3>
 
-Всё пофикшено, в который раз переписан редактор сессий. Не работают: ввод/вывод в/из файл/файла, добавление данных, сортировка. В планах на ближ. время реализовать сделать украшательство для редактора сессий и реализовать ввод/вывод в/из файл/файла и добавление данных.
+Снова пофикшен редактор сессий, испралено добавление нового студента.
 
 ![Курсач и Русаков](https://downloader.disk.yandex.ru/preview/bdd9765a189429f23fbd5c42b0441156bbeb95a70f005565e1077b599312f725/6445f08e/_w_57qcaJMH29ujevtv2dWE7P9_3EFR8C4e1g8ExbEXr0ZwlGSetYwYeassDlT3eH1IGlC4CtKBlBU1Yr5iFCA%3D%3D?uid=0&filename=1619747540_18-pibig_info-p-anime-za-kompom-anime-krasivo-22.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x892)
