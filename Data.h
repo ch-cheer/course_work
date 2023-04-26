@@ -65,6 +65,7 @@ public:
 	~Data();
 
 	void Print();
+	void PrintSes();
 	void DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
 
 	void DataEntry(Fio fio_);
@@ -204,66 +205,4 @@ public:
 			return data;
 		}
 	}
-
-// Придумаю позже (ползовательский интерфейс меню)
-//	string getDataWithoutLable (enum class editType et) {
-//		char ch = 0;
-//		cout << data;
-//		while (ch != 13) {
-//			ch = _getch();
-//			if (ch == 8) {
-//				if (data.length() > 0) {
-//					data.pop_back();
-//					system("cls");
-//					cout << data;
-//				}
-//				continue;
-//			}
-//			if (et == editType::onlyDigit)
-//				if (isDigit(ch)) {
-//					cout << ch;
-//					data = data + ch;
-//				}
-//			if (et == editType::onlyAlpha)
-//				if (isAlpha(ch)) {
-//					cout << ch;
-//					data = data + ch;
-//				}
-//			if (et == editType::all) {
-//				cout << ch;
-//				data = data + ch;
-//			}
-//		}
-//		return data;
-//	}
-//	int getDataWithoutLable(enum class editType et, int min, int max) {
-//		if (et == editType::onlyDigit) {
-//			getDataWithoutLable(et);
-//			int num = max + 1;
-//			if (isStringDigit(data))
-//				num = atoi(data.c_str());
-//			if (not (num >= min and num <= max)) {
-//				cout << endl << "Ошибка: Число которое вы ввели: " << num << " Выходит из диапазона (" << min << "; " << max << ") " << endl;
-//				system("pause");
-//				clear();
-//				getData(et, min, max);
-//			}
-//			if (isStringDigit(data))
-//				num = atoi(data.c_str());
-//			return num;
-//		}
-//	}
-//	string getDataWithoutLable(enum class editType et, int len) {
-//		if (et == editType::onlyAlpha) {
-//			getDataWithoutLable(et);
-//			if (data.length() > len) {
-//				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " " << endl;
-//				system("pause");
-//				clear();
-//				getData(et, len);
-//			}
-//			return data;
-//		}
-//	}
-
 };

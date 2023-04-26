@@ -139,6 +139,7 @@ void DataRead(Data* (&d), int& n, string FileName) {
 }
 //не работает
 
+
 void Print(Data* d, int n) {
 	for (int i = 0; i < n; i++) {
 		cout << " Данные о студенте номер: " << i + 1 << endl;
@@ -179,7 +180,7 @@ void DataChange(Data* d, int n) {
 	
 	Check* cl = new Check();
 
-	if (_n <= 0 && _n < n) {
+	if (_n >= 0 && _n < n) {
 		system("cls");
 		cout << "Выберите действие: " << endl
 			<< "(0) Вернуться" << endl
@@ -195,6 +196,8 @@ void DataChange(Data* d, int n) {
 			<< "Введите значение: ";
 		cin >> chm;
 		switch (chm) {
+		case 0:
+			break;
 		case 1:
 			system("cls");
 			cout << "Выберите действие: " << endl
@@ -224,6 +227,8 @@ void DataChange(Data* d, int n) {
 				fio.fathername = cl->getData(editType::onlyAlpha, 20);
 				break;
 			default:
+				cout << "Ошибка: Введено неврное значение, введите значение от 0 до 3" << endl;
+				system("pause");
 				break;
 			}
 
@@ -271,6 +276,8 @@ void DataChange(Data* d, int n) {
 				birthdate.year = cl->getData(editType::onlyDigit, 1800, 2100);
 				break;
 			default:
+				cout << "Ошибка: Введено неврное значение, введите значение от 0 до 3" << endl;
+				system("pause");
 				break;
 			}
 
@@ -336,8 +343,10 @@ void DataChange(Data* d, int n) {
 			}
 
 			system("cls");
-			cl->setLabel("Введите сессию, в которой необходимо изменить данные");
-			sesia_num = cl->getData(editType::onlyDigit, 1, 9);
+			cout << endl;
+			d[_n].PrintSes();
+			cout << endl << "Введите сессию, в которой необходимо изменить данные: ";
+			cin >> sesia_num;
 			for (int i = 0; i <= sesia.sesia_count; i++) {
 				if (sesia_num == sesia.sesia[i]) {
 					system("cls");
@@ -391,6 +400,8 @@ void DataChange(Data* d, int n) {
 							}
 							break;
 						default:
+							cout << "Ошибка: Введено неврное значение, введите значение от 0 до 2" << endl;
+							system("pause");
 							break;
 						}
 						break;
@@ -434,6 +445,8 @@ void DataChange(Data* d, int n) {
 							}
 							break;
 						default:
+							cout << "Ошибка: Введено неврное значение, введите значение от 0 до 2" << endl;
+							system("pause");
 							break;
 						}
 						break;
@@ -441,27 +454,15 @@ void DataChange(Data* d, int n) {
 						break;
 					}
 				}
+				else {
+					cout << endl << "Ошибка: Введена несуществующая сессия" << endl;
+				}
 			}
-
-			/*sesia.sesia_count = d[_n].GetSesia().sesia_count;
-			for (int i = 0; i <= sesia.sesia_count; i++) {
-				if (sesia.sesia[i] == 0) {
-					sesia.sesia[i] = d[_n].GetSesia().sesia[i];
-				}
-				sesia.subject_count[i] = d[_n].GetSesia().subject_count[i];
-				for (int j = 0; j <= sesia.subject_count[i]; j++) {
-					if (sesia.subject[i][j] == "") {
-						sesia.subject[i][j] = d[_n].GetSesia().subject[i][j];
-					}
-					if (sesia.mark[i][j] == 0) {
-						sesia.mark[i][j] = d[_n].GetSesia().mark[i][j];
-					}
-				}
-			}*/
-
 			d[_n].DataEntry(sesia);
 			break;
 		default:
+			cout << "Ошибка: Введено неврное значение, введите значение от 0 до 9" << endl;
+			system("pause");
 			break;
 		}
 	}
@@ -478,6 +479,7 @@ void Copy(Data* d_n, Data* d_o, int n) {
 		d_n[i] = d_o[i];
 	}
 }
+//работает
 
 void DataAdd(Data* (&d), int& n) {
 	Fio fio;
@@ -492,51 +494,88 @@ void DataAdd(Data* (&d), int& n) {
 	Data* buf = new Data[n];
 	int size = n, new_size = ++n;
 
-	Copy(d, buf, size);
+	Check* cl = new Check();
+
+	Copy(buf, d, size);
 
 	d = new Data[new_size];
 
 	Copy(d, buf, size);
 
-	cout << "Введите новую ФИО: ";
-	cin >> fio.surname >> fio.name >> fio.fathername;
+	cl->clear();
+	cl->setLabel("Введите фамилию: ");
+	fio.surname = cl->getData(editType::onlyAlpha, 20);
+	cl->clear();
+	cl->setLabel("Введите имя: ");
+	fio.name = cl->getData(editType::onlyAlpha, 20);
+	cl->clear();
+	cl->setLabel("Введите отчество: ");
+	fio.fathername = cl->getData(editType::onlyAlpha, 20);
 
-	cout << "Введите новую дату рождения: ";
-	cin >> birthdate.day >> birthdate.month >> birthdate.year;
+	cl->clear();
+	cl->setLabel("Введите день рождения: ");
+	birthdate.day = cl->getData(editType::onlyDigit, 1, 31);
+	cl->clear();
+	cl->setLabel("Введите месяц рождения: ");
+	birthdate.month = cl->getData(editType::onlyDigit, 1, 12);
+	cl->clear();
+	cl->setLabel("Введите год рождения: ");
+	birthdate.year = cl->getData(editType::onlyDigit, 1800, 2100);
 
-	cout << "Введите новый год поступления: ";
-	cin >> univeryear.univeryear;
+	cl->clear();
+	cl->setLabel("Введите год поступления: ");
+	univeryear.univeryear = cl->getData(editType::onlyDigit, 1800, 2100);
 
-	cout << "Введите новый факультет: ";
-	cin >> institut.institut;
+	cl->clear();
+	cl->setLabel("Введите институт (факультет): ");
+	institut.institut = cl->getData(editType::all);
 
-	cout << "Введите новую кафедру: ";
-	cin >> kafedra.kafedra;
+	cl->clear();
+	cl->setLabel("Введите кафедру: ");
+	kafedra.kafedra = cl->getData(editType::all);
 
-	cout << "Введите новую группу: ";
-	cin >> group.group;
+	cl->clear();
+	cl->setLabel("Введите группу: ");
+	group.group = cl->getData(editType::all);
 
-	cout << "Введите новый номер зачётной книжки: ";
-	cin >> exambook.exambook;
+	cl->clear();
+	cl->setLabel("Введите номер зачётной книжки: ");
+	exambook.exambook = cl->getData(editType::all);
 
-	cout << "Введите новый пол: ";
-	cin >> sex.sex;
+	cl->clear();
+	cl->setLabel("Введите пол: ");
+	sex.sex = cl->getData(editType::onlyAlpha, 10);
 
-	/*cout << "Введите количество сессий: ";
-	cin >> sesia.sesia;
+	cl->clear();
+	cl->setLabel("Введите количество сессий (от 1 до 9): ");
+	sesia.sesia_count = cl->getData(editType::onlyDigit, 1, 9);
+	sesia.sesia_count = sesia.sesia_count - 1;
 
+	for (int n = 0; n <= sesia.sesia_count; n++) {
+		cl->clear();
+		cl->setLabel("Введите сессию: ");
+		sesia.sesia[n] = cl->getData(editType::onlyDigit, 1, 9);
 
-	cout << "Введите предмет: ";
-	cin >> sesia.subject;
-
-	cout << "Введите оценку: ";
-	cin >> sesia.mark;*/
+		cl->clear();
+		cl->setLabel("Введите количество предметов: ");
+		sesia.subject_count[n] = cl->getData(editType::onlyDigit, 1, 10);
+		sesia.subject_count[n] = sesia.subject_count[n] - 1;
+		for (int h = 0; h <= sesia.subject_count[n]; h++) {
+			cl->clear();
+			cl->setLabel("Введите предмет: ");
+			sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::onlyAlpha, 20);
+			cl->clear();
+			cl->setLabel("Введите оценку: ");
+			sesia.mark[sesia.sesia[n]][h] = cl->getData(editType::onlyDigit, 1, 5);
+		}
+	}
 
 	d[size].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
 
 	cout << "Данные добавлены" << endl;
 	delete[] buf;
 }
+//работает
 
 void DataDel(Data* (&d), int& n) {
 	int _n;
@@ -564,6 +603,7 @@ void DataDel(Data* (&d), int& n) {
 
 	delete[] buf;
 }
+//работает
 
 void DataSort(Data* d, int n) {
 	Data buf;
@@ -583,6 +623,7 @@ void DataSort(Data* d, int n) {
 
 	cout << "Данные отсортированиы\nКоличество сортировок: " << numOfSored << endl;
 }
+//не работает
 
 void DataSave(Data* d, int n, string FileName) {
 	ofstream record(FileName);
@@ -605,3 +646,4 @@ void DataSave(Data* d, int n, string FileName) {
 		}
 	}
 }
+//не работает

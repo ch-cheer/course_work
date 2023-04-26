@@ -90,6 +90,18 @@ void Data::Print() {
 	}
 }
 
+void Data::PrintSes() {
+	for (int i = 0; i <= sesia.sesia_count; i++) {
+		cout << " Сессия: " << left << sesia.sesia[i] << endl;
+		line
+			cout << left << setw(2) << " № " << "| " << left << setw(85) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl << endl;
+		for (int j = 0; j <= sesia.subject_count[i]; j++) {
+			cout << " " << left << setw(2) << j + 1 << "| " << left << setw(85) << sesia.subject[sesia.sesia[i]][j] << " | " << left << setw(8) << sesia.mark[sesia.sesia[i]][j] << endl;
+		}
+		line
+	}
+}
+
 void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_) {
 	fio.surname = fio_.surname;
 	fio.name = fio_.name;
