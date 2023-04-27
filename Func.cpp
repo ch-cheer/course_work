@@ -14,8 +14,8 @@ void DataEntry(Data* (&d), int& n) {
 
 	Check* cl = new Check();
 
-	cout << "Введите количество студентов: ";
-	cin >> n;
+	cl->setLabel("Введите количество студентов: ");
+	n = cl->getData(editType::onlyDigit, 1, sizeof(n));
 
 	d = new Data[n];
 
@@ -116,7 +116,7 @@ void DataRead(Data* (&d), int& n, string FileName) {
 
 		for (int i = 0; i < n; i++) {
 
-			reading.read((char*)&fio.surname, 20);			
+			reading.read((char*)&fio.surname, 20);		
 			reading.read((char*)&fio.name, 20);
 			reading.read((char*)&fio.fathername, 20);
 			//record << d[i].GetFio().surname << " " << d[i].GetFio().name << " " << d[i].GetFio().fathername << endl;
@@ -664,7 +664,7 @@ void DataSave(Data* d, int n, string FileName) {
 		Sex sex;
 		Sesia sesia;
 
-		record.write((char*)&n, 2);
+		record.write((char*)&n, sizeof(int));
 		//record << n << endl;
 
 		for (int i = 0; i < n; i++) {
@@ -717,5 +717,6 @@ void DataSave(Data* d, int n, string FileName) {
 				record << d[i].GetSesia().mark << endl;*/
 			}
 		}
+		record.close();
 	}
 }
