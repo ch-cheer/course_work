@@ -46,6 +46,7 @@ struct Sesia {
 	string subject[9][10];
 	unsigned int mark[9][10], sesia[9];
 	short unsigned int subject_count[10], sesia_count;
+	string diferens[9][10];
 };
 
 class Data {

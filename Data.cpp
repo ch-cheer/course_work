@@ -1,6 +1,6 @@
 #include "Data.h"
 #include <iomanip>
-#define line cout << "----------------------------------------------------------------------------------------------------" << endl;
+#define line cout << "-----------------------------------------------------------------------------------------------------" << endl;
 
 Data::Data() {
 	fio.surname = "";
@@ -28,8 +28,9 @@ Data::Data() {
 		sesia.sesia[i] = 0;
 		for (int j = 0; j <= 9; j++) {
 			sesia.subject[i][j] = "";
-			sesia.mark[i][j] = 0;
 			sesia.subject_count[j] = 0;
+			sesia.mark[i][j] = 0;
+			sesia.diferens[i][j] = "";
 		}
 	}
 }
@@ -62,6 +63,7 @@ Data::Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut inst
 			sesia.subject[i][j] = sesia_.subject[i][j];
 			sesia.mark[i][j] = sesia_.mark[i][j];
 			sesia.subject_count[j] = sesia_.subject_count[j];
+			sesia.diferens[i][j] = sesia_.diferens[i][j];
 		}
 	}
 }
@@ -84,7 +86,16 @@ void Data::Print() {
 		line
 		cout << left << setw(2) << " № " << "| " << left << setw(85) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl << endl;
 		for (int j = 0; j <= sesia.subject_count[i]; j++) {
-			cout << " " << left << setw(2) << j + 1 << "| " << left << setw(85) << sesia.subject[sesia.sesia[i]][j] << " | " << left << setw(8) << sesia.mark[sesia.sesia[i]][j] << endl;
+			cout << " " << left << setw(2) << j + 1 << "| " << left << setw(85) << sesia.subject[sesia.sesia[i]][j] << " | ";
+			if (sesia.mark[sesia.sesia[i]][j] == 0) {
+				cout << left << setw(8) << sesia.diferens[sesia.sesia[i]][j] << endl;
+			}
+			else if (sesia.mark[sesia.sesia[i]][j] == 1) {
+				cout << left << setw(8) << sesia.diferens[sesia.sesia[i]][j] << endl;
+			}
+			else {
+				cout << left << setw(8) << sesia.mark[sesia.sesia[i]][j] << endl;
+			}
 		}
 		line
 	}
@@ -96,7 +107,16 @@ void Data::PrintSes() {
 		line
 			cout << left << setw(2) << " № " << "| " << left << setw(85) << "Предмет: " << " | " << left << setw(8) << "Оценка: " << endl << endl;
 		for (int j = 0; j <= sesia.subject_count[i]; j++) {
-			cout << " " << left << setw(2) << j + 1 << "| " << left << setw(85) << sesia.subject[sesia.sesia[i]][j] << " | " << left << setw(8) << sesia.mark[sesia.sesia[i]][j] << endl;
+			cout << " " << left << setw(2) << j + 1 << "| " << left << setw(85) << sesia.subject[sesia.sesia[i]][j] << " | ";
+			if (sesia.mark[sesia.sesia[i]][j] == 0) {
+				cout << left << setw(8) << sesia.diferens[sesia.sesia[i]][j] << endl;
+			}
+			else if (sesia.mark[sesia.sesia[i]][j] == 1) {
+				cout << left << setw(8) << sesia.diferens[sesia.sesia[i]][j] << endl;
+			}
+			else {
+				cout << left << setw(8) << sesia.mark[sesia.sesia[i]][j] << endl;
+			}
 		}
 		line
 	}
@@ -131,6 +151,7 @@ void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Ins
 			sesia.subject[i][j] = sesia_.subject[i][j];
 			sesia.mark[i][j] = sesia_.mark[i][j];
 			sesia.subject_count[j] = sesia_.subject_count[j];
+			sesia.diferens[i][j] = sesia_.diferens[i][j];
 		}
 	}
 }
@@ -179,6 +200,7 @@ void Data::DataEntry(Sesia sesia_) {
 			sesia.subject[i][j] = sesia_.subject[i][j];
 			sesia.mark[i][j] = sesia_.mark[i][j];
 			sesia.subject_count[j] = sesia_.subject_count[j];
+			sesia.diferens[i][j] = sesia_.diferens[i][j];
 		}
 	}
 }
@@ -210,6 +232,7 @@ Data& Data::operator=(Data d_o) {
 		for (int j = 0; j <= 9; j++) {
 			this->sesia.subject[i][j] = d_o.sesia.subject[i][j];
 			this->sesia.mark[i][j] = d_o.sesia.mark[i][j];
+			this->sesia.diferens[i][j] = d_o.sesia.diferens[i][j];
 			this->sesia.subject_count[j] = d_o.sesia.subject_count[j];
 		}
 	}

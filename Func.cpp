@@ -1,5 +1,5 @@
 #include "Func.h"
-#define uwu cout << " ^ W ^			 ^ W ^			 ^ W ^			 ^ W ^ " << endl;
+#define uwu cout << "	^ W ^			 ^ W ^			 ^ W ^			 ^ W ^	" << endl;
 
 void DataEntry(Data* (&d), int& n) {
 	Fio fio;
@@ -11,6 +11,7 @@ void DataEntry(Data* (&d), int& n) {
 	Exambook exambook;
 	Sex sex;
 	Sesia sesia;
+	short unsigned int dif_nodif = 1, zath_nozath = 1;
 
 	Check* cl = new Check();
 
@@ -83,8 +84,30 @@ void DataEntry(Data* (&d), int& n) {
 				cl->setLabel("Введите предмет: ");
 				sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::onlyAlpha, 20);
 				cl->clear();
-				cl->setLabel("Введите оценку: ");
-				sesia.mark[sesia.sesia[n]][h] = cl->getData(editType::onlyDigit, 1, 5);
+				cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
+				dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
+				switch (dif_nodif) {
+				case 1:
+					cl->clear();
+					cl->setLabel("Введите оценку: ");
+					sesia.mark[sesia.sesia[n]][h] = cl->getData(editType::onlyDigit, 2, 5);
+					break;
+				case 2:
+					cl->clear();
+					cl->setLabel("Введите значение: зачёт(1) / незачет(2)");
+					zath_nozath = cl->getData(editType::onlyDigit, 1, 2);
+					switch (zath_nozath) {
+					case 1:
+						sesia.mark[sesia.sesia[n]][h] = 1;
+						sesia.diferens[sesia.sesia[n]][h] = "Зачёт";
+						break;
+					case 2:
+						sesia.mark[sesia.sesia[n]][h] = 0;
+						sesia.diferens[sesia.sesia[n]][h] = "Не зачёт";
+						break;
+					}
+					break;
+				}
 			}
 		}
 
@@ -190,29 +213,20 @@ void DataChange(Data* d, int n) {
 	int chsub;
 	unsigned int subject_num;
 	string subject_item;
+	short unsigned int dif_nodif = 1, zath_nozath = 1;
 
-
+	Check* cl = new Check();
+	
+	cl->clear();
 	cout << "Введите номер студента (от 1 до " << n << "): ";
-	cin >> _n;
+	_n = cl->getData(editType::onlyDigit, 1, n);
 	_n--;
 	
-	Check* cl = new Check();
 
 	if (_n >= 0 && _n < n) {
-		system("cls");
-		cout << "Выберите действие: " << endl
-			<< "(0) Вернуться" << endl
-			<< "(1) Изменить ФИО " << endl
-			<< "(2) Изменить дату рождения" << endl
-			<< "(3) Изменить год поступления" << endl
-			<< "(4) Изменить факультет (институт)" << endl
-			<< "(5) Изменить кафедру" << endl
-			<< "(6) Изменить группу" << endl
-			<< "(7) Изменить номер зачётной книжки" << endl
-			<< "(8) Изменить пол" << endl
-			<< "(9) Редактор сессии(ий)" << endl
-			<< "Введите значение: ";
-		cin >> chm;
+		cl->clear();
+		cl->setLabel("Выберите действие:\n(0) Вернуться\n(1) Изменить ФИО\n(2) Изменить дату рождения\n(3) Изменить год поступления\n(4) Изменить факультет (институт)\n(5) Изменить кафедру\n(6) Изменить группу\n(7) Изменить номер зачётной книжки\n(8) Изменить пол\n(9) Редактор сессии(ий)\nВведите значение: ");
+		chm = cl->getData(editType::onlyDigit, 0, 9);
 		switch (chm) {
 		case 0:
 			break;
@@ -357,6 +371,7 @@ void DataChange(Data* d, int n) {
 				for (int j = 0; j <= sesia.subject_count[i]; j++) {
 					sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
 					sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+					sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
 				}
 			}
 
@@ -444,8 +459,30 @@ void DataChange(Data* d, int n) {
 								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
 								if (j == subject_num) {
 									cl->clear();
-									cl->setLabel("Введите новую оценку: ");
-									sesia.mark[sesia.sesia[i]][j] = cl->getData(editType::onlyDigit, 1, 5);
+									cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
+									dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
+									switch (dif_nodif) {
+									case 1:
+										cl->clear();
+										cl->setLabel("Введите оценку: ");
+										sesia.mark[sesia.sesia[i]][j] = cl->getData(editType::onlyDigit, 2, 5);
+										break;
+									case 2:
+										cl->clear();
+										cl->setLabel("Введите значение: зачёт(1) / незачет(2)");
+										zath_nozath = cl->getData(editType::onlyDigit, 1, 2);
+										switch (zath_nozath) {
+										case 1:
+											sesia.mark[sesia.sesia[i]][j] = 1;
+											sesia.diferens[sesia.sesia[i]][j] = "Зачёт";
+											break;
+										case 2:
+											sesia.mark[sesia.sesia[i]][j] = 0;
+											sesia.diferens[sesia.sesia[i]][j] = "Не зачёт";
+											break;
+										}
+										break;
+									}
 								}
 							}
 							break;
@@ -457,8 +494,30 @@ void DataChange(Data* d, int n) {
 								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
 								if (subject_item == sesia.subject[sesia.sesia[i]][j]) {
 									cl->clear();
-									cl->setLabel("Введите новую оценку: ");
-									sesia.mark[sesia.sesia[i]][j] = cl->getData(editType::onlyDigit, 1, 5);
+									cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
+									dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
+									switch (dif_nodif) {
+									case 1:
+										cl->clear();
+										cl->setLabel("Введите оценку: ");
+										sesia.mark[sesia.sesia[i]][j] = cl->getData(editType::onlyDigit, 2, 5);
+										break;
+									case 2:
+										cl->clear();
+										cl->setLabel("Введите значение: зачёт(1) / незачет(2)");
+										zath_nozath = cl->getData(editType::onlyDigit, 1, 2);
+										switch (zath_nozath) {
+										case 1:
+											sesia.mark[sesia.sesia[i]][j] = 1;
+											sesia.diferens[sesia.sesia[i]][j] = "Зачёт";
+											break;
+										case 2:
+											sesia.mark[sesia.sesia[i]][j] = 0;
+											sesia.diferens[sesia.sesia[i]][j] = "Не зачёт";
+											break;
+										}
+										break;
+									}
 								}
 							}
 							break;
@@ -511,6 +570,7 @@ void DataAdd(Data* (&d), int& n) {
 	Sesia sesia;
 	Data* buf = new Data[n];
 	int size = n, new_size = ++n;
+	short unsigned int dif_nodif = 1, zath_nozath = 1;
 
 	Check* cl = new Check();
 
@@ -583,8 +643,30 @@ void DataAdd(Data* (&d), int& n) {
 			cl->setLabel("Введите предмет: ");
 			sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::onlyAlpha, 20);
 			cl->clear();
-			cl->setLabel("Введите оценку: ");
-			sesia.mark[sesia.sesia[n]][h] = cl->getData(editType::onlyDigit, 1, 5);
+			cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
+			dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
+			switch (dif_nodif) {
+			case 1:
+				cl->clear();
+				cl->setLabel("Введите оценку: ");
+				sesia.mark[sesia.sesia[n]][h] = cl->getData(editType::onlyDigit, 2, 5);
+				break;
+			case 2:
+				cl->clear();
+				cl->setLabel("Введите значение: зачёт(1) / незачет(2)");
+				zath_nozath = cl->getData(editType::onlyDigit, 1, 2);
+				switch (zath_nozath) {
+				case 1:
+					sesia.mark[sesia.sesia[n]][h] = 1;
+					sesia.diferens[sesia.sesia[n]][h] = "Зачёт";
+					break;
+				case 2:
+					sesia.mark[sesia.sesia[n]][h] = 0;
+					sesia.diferens[sesia.sesia[n]][h] = "Не зачёт";
+					break;
+				}
+				break;
+			}
 		}
 	}
 
