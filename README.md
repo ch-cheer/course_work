@@ -22,4 +22,4 @@
 
 Реализация добавления сессий для отдельного студента.
 
-![Курсач и Русаков](https://downloader.disk.yandex.ru/preview/bdd9765a189429f23fbd5c42b0441156bbeb95a70f005565e1077b599312f725/6445f08e/_w_57qcaJMH29ujevtv2dWE7P9_3EFR8C4e1g8ExbEXr0ZwlGSetYwYeassDlT3eH1IGlC4CtKBlBU1Yr5iFCA%3D%3D?uid=0&filename=1619747540_18-pibig_info-p-anime-za-kompom-anime-krasivo-22.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x892)
+![Курсач и Русаков](https://sun1-94.userapi.com/impg/KK_W_JSZNZaRuFwM4QNTRT9vTq322uC9ZZDlKg/Kx8jUgBJKS8.jpg?size=1280x720&quality=95&sign=ca3709092ba9943b2202bf7f35e0ec10&type=album)
