@@ -225,8 +225,8 @@ void DataChange(Data* d, int n) {
 
 	if (_n >= 0 && _n < n) {
 		cl->clear();
-		cl->setLabel("Выберите действие:\n(0) Вернуться\n(1) Изменить ФИО\n(2) Изменить дату рождения\n(3) Изменить год поступления\n(4) Изменить факультет (институт)\n(5) Изменить кафедру\n(6) Изменить группу\n(7) Изменить номер зачётной книжки\n(8) Изменить пол\n(9) Редактор сессии(ий)\nВведите значение: ");
-		chm = cl->getData(editType::onlyDigit, 0, 9);
+		cl->setLabel("Выберите действие:\n(0) Вернуться\n(1) Изменить ФИО\n(2) Изменить дату рождения\n(3) Изменить год поступления\n(4) Изменить факультет (институт)\n(5) Изменить кафедру\n(6) Изменить группу\n(7) Изменить номер зачётной книжки\n(8) Изменить пол\n(9) Добавить сессию\n(10) Редактор сессии(ий)\nВведите значение: ");
+		chm = cl->getData(editType::onlyDigit, 0, 10);
 		switch (chm) {
 		case 0:
 			break;
@@ -375,11 +375,68 @@ void DataChange(Data* d, int n) {
 				}
 			}
 
-			system("cls");
+			if (sesia.sesia_count < 8) { //0 — 8
+				sesia.sesia_count++;
+				cl->clear();
+				cl->setLabel("Введите сессию: ");
+				sesia.sesia[sesia.sesia_count] = cl->getData(editType::onlyDigit, 1, 9);
+
+				cl->clear();
+				cl->setLabel("Введите количество предметов: ");
+				sesia.subject_count[sesia.sesia_count] = cl->getData(editType::onlyDigit, 1, 10);
+				sesia.subject_count[sesia.sesia_count] = sesia.subject_count[sesia.sesia_count] - 1;
+				for (int h = 0; h <= sesia.subject_count[sesia.sesia_count]; h++) {
+					cl->clear();
+					cl->setLabel("Введите предмет: ");
+					sesia.subject[sesia.sesia[sesia.sesia_count]][h] = cl->getData(editType::onlyAlpha, 20);
+					cl->clear();
+					cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
+					dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
+					switch (dif_nodif) {
+					case 1:
+						cl->clear();
+						cl->setLabel("Введите оценку: ");
+						sesia.mark[sesia.sesia[sesia.sesia_count]][h] = cl->getData(editType::onlyDigit, 2, 5);
+						break;
+					case 2:
+						cl->clear();
+						cl->setLabel("Введите значение: зачёт(1) / незачет(2)");
+						zath_nozath = cl->getData(editType::onlyDigit, 1, 2);
+						switch (zath_nozath) {
+						case 1:
+							sesia.mark[sesia.sesia[sesia.sesia_count]][h] = 1;
+							sesia.diferens[sesia.sesia[sesia.sesia_count]][h] = "Зачёт";
+							break;
+						case 2:
+							sesia.mark[sesia.sesia[sesia.sesia_count]][h] = 0;
+							sesia.diferens[sesia.sesia[sesia.sesia_count]][h] = "Не зачёт";
+							break;
+						}
+						break;
+					}
+				}
+			}
+			d[_n].DataEntry(sesia);
+			break;
+		case 10:
+			sesia.sesia_count = d[_n].GetSesia().sesia_count;
+			for (int i = 0; i <= sesia.sesia_count; i++) {
+				sesia.sesia[i] = d[_n].GetSesia().sesia[i];
+				sesia.subject_count[i] = d[_n].GetSesia().subject_count[i];
+				for (int j = 0; j <= sesia.subject_count[i]; j++) {
+					sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+					sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+					sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
+				}
+			}
+
+			/*system("cls");
 			cout << endl;
 			d[_n].PrintSes();
-			cout << endl << "Введите сессию, в которой необходимо изменить данные: ";
-			cin >> sesia_num;
+			cout << endl << "Введите сессию, в которой необходимо изменить данные: ";*/
+			cl->clear();
+			cl->setLabel("Введите сессию, в которой необходимо изменить данные: ");
+			sesia_num = cl->getData(editType::onlyDigit, 1, 9);
 			for (int i = 0; i <= sesia.sesia_count; i++) {
 				if (sesia_num == sesia.sesia[i]) {
 					system("cls");
