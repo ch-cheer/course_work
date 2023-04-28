@@ -3,7 +3,11 @@
 int _Menu;
 
 void Menu() {
-	cout << "Выберите действие: " << endl
+	Check* menu = new Check();
+	menu->clear();
+	menu->setLabel("Выберите действие:\n(0) Выход из программы\n(1) Ввод данных\n(2) Вывод данных\n(3) Изменение данных\n(4) Добавление данных\n(5) Удаление данных\n(6) Сортировка данных\n(7) Сохранение данных\nВведите значение:");
+	_Menu = menu->getData(editType::onlyDigit, 0, 7);
+	/*cout << "Выберите действие: " << endl
 		<< "(0) Выход из программы" << endl
 		<< "(1) Ввод данных" << endl
 		<< "(2) Вывод данных" << endl
@@ -13,7 +17,7 @@ void Menu() {
 		<< "(6) Сортировка данных" << endl
 		<< "(7) Сохранение данных" << endl
 		<< "Введите значение: ";
-	cin >> _Menu;
+	cin >> _Menu;*/
 }
 
 void Return() {
@@ -32,6 +36,8 @@ int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
+	Check* cl = new Check();
+
 	Menu();
 	int _actions;
 	int _actions_return;
@@ -46,12 +52,14 @@ int main() {
 		{
 		case 1:
 		d1:system("cls");
-
-			cout << "(0) Вернуться в меню" << endl
+			cl->clear();
+			cl->setLabel("(0) Вернуться в меню\n(1) Внести данные вручную\n(2)Считать данные из файла\nВведите значение:");
+			/*cout << "(0) Вернуться в меню" << endl
 				<< "(1) Внести данные вручную" << endl
 				<< "(2) Считать из файла" << endl
 				<< "Введите значение: ";
-			cin >> _actions;
+			cin >> _actions;*/
+			_actions = cl->getData(editType::onlyDigit, 0, 2);
 
 			if (_actions == 1) {
 				DataEntry(d, _size);
