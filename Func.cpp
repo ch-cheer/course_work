@@ -70,12 +70,12 @@ void DataEntry(Data* (&d), int& n) {
 		cl->setLabel("Введите количество сессий (от 1 до 9): ");
 		sesia.sesia_count = cl->getData(editType::onlyDigit, 1, 9);
 		sesia.sesia_count = sesia.sesia_count - 1;
-		
+
 		for (int n = 0; n <= sesia.sesia_count; n++) {
 			cl->clear();
 			cl->setLabel("Введите сессию: ");
 			sesia.sesia[n] = cl->getData(editType::onlyDigit, 1, 9);
-			
+
 			cl->clear();
 			cl->setLabel("Введите количество предметов: ");
 			sesia.subject_count[n] = cl->getData(editType::onlyDigit, 1, 10);
@@ -116,12 +116,12 @@ void DataEntry(Data* (&d), int& n) {
 
 		cout << endl;
 	}
-} 
+}
 //работает
 
 void DataRead(Data* (&d), int& n, string FileName) {
 	ifstream reading;
-	reading.open(FileName, ios_base::binary);
+	reading.open(FileName, ios::binary);
 
 	if (reading.is_open()) {
 		Fio fio;
@@ -133,43 +133,133 @@ void DataRead(Data* (&d), int& n, string FileName) {
 		Exambook exambook;
 		Sex sex;
 		Sesia sesia;
+		int readCount;
 
 		reading.read((char*)&n, sizeof(int));
 
 		d = new Data[n];
 
 		for (int i = 0; i < n; i++) {
+			//Чтение фамилии
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				fio.surname = buffer;
+				delete[] buffer;
+			}
+			//Чтение имени
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				fio.name = buffer;
+				delete[] buffer;
+			}
+			//Чтение отчества
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				fio.fathername = buffer;
+				delete[] buffer;
+			}
 
-			reading.read((char*)&fio.surname, 20);		
-			reading.read((char*)&fio.name, 20);
-			reading.read((char*)&fio.fathername, 20);
-			//record << d[i].GetFio().surname << " " << d[i].GetFio().name << " " << d[i].GetFio().fathername << endl;
-			/*birthdate.day = d[i].GetBirthdate().day;
-			birthdate.month = d[i].GetBirthdate().month;
-			birthdate.year = d[i].GetBirthdate().year;*/
+			//Чтение дня рождения
+			reading.read((char*)&birthdate.day, sizeof(int));
+			//Чтение месяца рождения
+			reading.read((char*)&birthdate.month, sizeof(int));
+			//Чтение года рождения
+			reading.read((char*)&birthdate.year, sizeof(int));
 
-			reading.read((char*)&birthdate.day, 2);
-			reading.read((char*)&birthdate.month, 2);
-			reading.read((char*)&birthdate.year, 4);
-			//record << d[i].GetBirthdate().day << " " << d[i].GetBirthdate().month << " " << d[i].GetBirthdate().year << endl;
-			/*univeryear.univeryear = d[i].GetUniveryear().univeryear;*/
-			reading.read((char*)&univeryear.univeryear, 20);
-			//record << d[i].GetUniveryear().univeryear << endl;
-			/*institut.institut = d[i].GetInstitut().institut;*/
-			reading.read((char*)&institut.institut, 20);
-			//record << d[i].GetInstitut().institut << endl;
-			/*kafedra.kafedra = d[i].GetKafedra().kafedra;*/
-			reading.read((char*)&kafedra.kafedra, 20);
-			//record << d[i].GetKafedra().kafedra << endl;
-			/*group.group = d[i].GetGroup().group;*/
-			reading.read((char*)&group.group, 20);
-			//record << d[i].GetGroup().group << endl;
-			/*exambook.exambook = d[i].GetExambook().exambook;*/
-			reading.read((char*)&exambook.exambook, 20);
-			//record << d[i].GetExambook().exambook << endl;
-			/*sex.sex = d[i].GetSex().sex;*/
-			reading.read((char*)&sex.sex, 20);
+			//Чтение года поступления в университет
+			reading.read((char*)&univeryear.univeryear, sizeof(int));
 
+			//Чтение названия института
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				institut.institut = buffer;
+				delete[] buffer;
+			}
+
+			//Чтение названия кафедры
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				kafedra.kafedra = buffer;
+				delete[] buffer;
+			}
+
+			//Чтение названия группы
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				group.group = buffer;
+				delete[] buffer;
+			}
+
+			//Чтение номер зачётной книжки
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				exambook.exambook = buffer;
+				delete[] buffer;
+			}
+
+			//Чтение пола студента
+			{
+				reading.read((char*)&readCount, sizeof(int));
+				char* buffer = new char[readCount + 1];
+				buffer[readCount] = '\0';
+				reading.read(buffer, readCount);
+				sex.sex = buffer;
+				delete[] buffer;
+			}
+
+			//Чтение количества сессий
+			reading.read((char*)&sesia.sesia_count, sizeof(short unsigned int));
+
+			for (int j = 0; j <= sesia.sesia_count; j++) {
+				//Чтение номера сессии
+				reading.read((char*)&sesia.sesia[j], sizeof(unsigned int));
+				//Чтение количества предметов
+				reading.read((char*)&sesia.subject_count[j], sizeof(short unsigned int));
+				for (int h = 0; h <= sesia.subject_count[j]; h++) {
+					//Чтение предмета
+					{
+						reading.read((char*)&readCount, sizeof(int));
+						char* buffer = new char[readCount + 1];
+						buffer[readCount] = '\0';
+						reading.read(buffer, readCount);
+						sesia.subject[sesia.sesia[j]][h] = buffer;
+						delete[] buffer;
+					}
+					//Получение оценки из файла
+					reading.read((char*)&sesia.mark[sesia.sesia[j]][h], sizeof(unsigned int));
+					if ((sesia.mark[sesia.sesia[j]][h] == 0) || (sesia.mark[sesia.sesia[j]][h] == 1)) {
+						{
+							reading.read((char*)&readCount, sizeof(int));
+							char* buffer = new char[readCount + 1];
+							buffer[readCount] = '\0';
+							reading.read(buffer, readCount);
+							sesia.diferens[sesia.sesia[j]][h] = buffer;
+							delete[] buffer;
+						}
+					}
+				}
+			}
 			d[i].DataEntry(fio, birthdate, univeryear, institut, kafedra, group, exambook, sex, sesia);
 		}
 
@@ -180,7 +270,7 @@ void DataRead(Data* (&d), int& n, string FileName) {
 
 	reading.close();
 }
-//не работает
+//Работает
 
 void Print(Data* d, int n) {
 	for (int i = 0; i < n; i++) {
@@ -189,15 +279,15 @@ void Print(Data* d, int n) {
 		d[i].Print();
 		cout << endl;
 		uwu
-		cout << endl;
+			cout << endl;
 	}
 }
 //работает
 
 void DataChange(Data* d, int n) {
 	Fio fio;
-	Birthdate birthdate{0, 0, 0};
-	Univeryear univeryear{0};
+	Birthdate birthdate{ 0, 0, 0 };
+	Univeryear univeryear{ 0 };
 	Institut institut;
 	Kafedra kafedra;
 	Group group;
@@ -208,7 +298,7 @@ void DataChange(Data* d, int n) {
 	int _n;
 	int chm;
 	int chfio;
-	int chbthd; 
+	int chbthd;
 	int chses;
 	unsigned int sesia_num;
 	int chsub;
@@ -217,12 +307,12 @@ void DataChange(Data* d, int n) {
 	short unsigned int dif_nodif = 1, zath_nozath = 1;
 
 	Check* cl = new Check();
-	
+
 	cl->clear();
 	cout << "Введите номер студента (от 1 до " << n << "): ";
 	_n = cl->getData(editType::onlyDigit, 1, n);
 	_n--;
-	
+
 
 	if (_n >= 0 && _n < n) {
 		cl->clear();
@@ -786,13 +876,10 @@ void DataSort(Data* d, int n) {
 void DataSave(Data* d, int n, string FileName) {
 
 	ofstream record;
-	record.open(FileName, ios_base::binary | ios_base::out);
-	/*if (record.is_open()) {
-		record.write((char*)&n, sizeof(n));
-		for (int i = 0; i < n; i++) {
-			record.write((char*)&d[i].GetFio().surname, sizeof());
-		}
-	}*/
+	record.open(FileName, ios::binary);
+
+	record.write((char*)&n, sizeof(int));
+
 	if (record.is_open()) {
 		Fio fio;
 		Birthdate birthdate;
@@ -803,60 +890,99 @@ void DataSave(Data* d, int n, string FileName) {
 		Exambook exambook;
 		Sex sex;
 		Sesia sesia;
-
-		record.write((char*)&n, sizeof(int));
-		//record << n << endl;
+		unsigned int count;
 
 		for (int i = 0; i < n; i++) {
+			//Запись фамилии
 			fio.surname = d[i].GetFio().surname;
+			count = fio.surname.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(fio.surname.c_str(), count);
+			//Запись имени
 			fio.name = d[i].GetFio().name;
+			count = fio.name.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(fio.name.c_str(), count);
+			//Запись отчества
 			fio.fathername = d[i].GetFio().fathername;
+			count = fio.fathername.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(fio.fathername.c_str(), count);
 
-			record.write((char*)&fio.surname, 20);
-			record.write((char*)&fio.name, 20);
-			record.write((char*)&fio.fathername, 20);
-			//record << d[i].GetFio().surname << " " << d[i].GetFio().name << " " << d[i].GetFio().fathername << endl;
+			//Запись дня рождения
 			birthdate.day = d[i].GetBirthdate().day;
+			record.write((char*)&birthdate.day, sizeof(int));
+			//Запись месяца рождения
 			birthdate.month = d[i].GetBirthdate().month;
+			record.write((char*)&birthdate.month, sizeof(int));
+			//Запись года рождения
 			birthdate.year = d[i].GetBirthdate().year;
+			record.write((char*)&birthdate.year, sizeof(int));
 
-			record.write((char*)&birthdate.day, 2);
-			record.write((char*)&birthdate.month, 2);
-			record.write((char*)&birthdate.year, 4);
-			//record << d[i].GetBirthdate().day << " " << d[i].GetBirthdate().month << " " << d[i].GetBirthdate().year << endl;
+			//Запись года поступдения в университет
 			univeryear.univeryear = d[i].GetUniveryear().univeryear;
-			record.write((char*)&univeryear.univeryear, 20);
-			//record << d[i].GetUniveryear().univeryear << endl;
+			record.write((char*)&univeryear.univeryear, sizeof(int));
+
+			//Запись названия института
 			institut.institut = d[i].GetInstitut().institut;
-			record.write((char*)&institut.institut, 20);
-			//record << d[i].GetInstitut().institut << endl;
+			count = institut.institut.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(institut.institut.c_str(), count);
+
+			//Запись названия кафедры
 			kafedra.kafedra = d[i].GetKafedra().kafedra;
-			record.write((char*)&kafedra.kafedra, 20);
-			//record << d[i].GetKafedra().kafedra << endl;
+			count = kafedra.kafedra.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(kafedra.kafedra.c_str(), count);
+
+			//Запись названия группы
 			group.group = d[i].GetGroup().group;
-			record.write((char*)&group.group, 20);
-			//record << d[i].GetGroup().group << endl;
+			count = group.group.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(group.group.c_str(), count);
+
+			//Запись номера зачётной книжки
 			exambook.exambook = d[i].GetExambook().exambook;
-			record.write((char*)&exambook.exambook, 20);
-			//record << d[i].GetExambook().exambook << endl;
+			count = exambook.exambook.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(exambook.exambook.c_str(), count);
+
+			//Запись пола студента
 			sex.sex = d[i].GetSex().sex;
-			record.write((char*)&sex.sex, 20);
-			//record << d[i].GetSex().sex << endl;
+			count = sex.sex.size();
+			record.write((char*)&count, sizeof(int));
+			record.write(sex.sex.c_str(), count);
+
+			//Запись количества сессий
 			sesia.sesia_count = d[i].GetSesia().sesia_count;
+			record.write((char*)&sesia.sesia_count, sizeof(short unsigned int));
+
 			for (int j = 0; j <= sesia.sesia_count; j++) {
+				//Запсись номера сессии
 				sesia.sesia[j] = d[i].GetSesia().sesia[j];
-				//record.write((char*)&sesia.sesia, )
-				record << d[i].GetSesia().sesia[j] << endl;
+				record.write((char*)&sesia.sesia[j], sizeof(unsigned int));
+				//Запись количества предметов
 				sesia.subject_count[j] = d[i].GetSesia().subject_count[j];
-				record << d[i].GetSesia().subject_count[j] << endl;
+				record.write((char*)&sesia.subject_count[j], sizeof(short unsigned int));
 				for (int h = 0; h <= sesia.subject_count[j]; h++) {
-					record << d[i].GetSesia().subject[sesia.sesia[j]][h] << endl;
-					record << d[i].GetSesia().mark[sesia.sesia[j]][h] << endl;
+					//Запись предмета
+					sesia.subject[sesia.sesia[j]][h] = d[i].GetSesia().subject[sesia.sesia[j]][h];
+					count = sesia.subject[sesia.sesia[j]][h].size();
+					record.write((char*)&count, sizeof(int));
+					record.write(sesia.subject[sesia.sesia[j]][h].c_str(), count);
+					//Получение оценки из программы
+					sesia.mark[sesia.sesia[j]][h] = d[i].GetSesia().mark[sesia.sesia[j]][h];
+					record.write((char*)&sesia.mark[sesia.sesia[j]][h], sizeof(unsigned int));
+					if ((sesia.mark[sesia.sesia[j]][h] == 0) || (sesia.mark[sesia.sesia[j]][h] == 1)) {
+						sesia.diferens[sesia.sesia[j]][h] = d[i].GetSesia().diferens[sesia.sesia[j]][h];
+						count = sesia.diferens[sesia.sesia[j]][h].size();
+						record.write((char*)&count, sizeof(int));
+						record.write(sesia.diferens[sesia.sesia[j]][h].c_str(), count);
+					}
 				}
-				/*record << d[i].GetSesia().subject << endl;
-				record << d[i].GetSesia().mark << endl;*/
 			}
 		}
 		record.close();
 	}
 }
+//Работает
