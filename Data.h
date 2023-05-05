@@ -43,10 +43,10 @@ struct Sex {
 };
 
 struct Sesia {
-	string subject[9][10];
-	unsigned int mark[9][10], sesia[9];
+	string subject[10][10];
+	unsigned int mark[10][10], sesia[10];
 	short unsigned int subject_count[10], sesia_count;
-	string diferens[9][10];
+	string diferens[10][10];
 };
 
 class Data {

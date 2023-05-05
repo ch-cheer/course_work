@@ -72,9 +72,16 @@ void DataEntry(Data* (&d), int& n) {
 		sesia.sesia_count = sesia.sesia_count - 1;
 
 		for (int n = 0; n <= sesia.sesia_count; n++) {
-			cl->clear();
+			error_ses:cl->clear();
 			cl->setLabel("Введите сессию: ");
 			sesia.sesia[n] = cl->getData(editType::onlyDigit, 1, 9);
+
+			if ((n != 0) && (sesia.sesia[n] == sesia.sesia[n - 1])) {
+				system("cls");
+				cout << "Ошибка: Введены 2 одинаковые сессии" << endl;
+				system("pause");
+				goto error_ses;
+			}
 
 			cl->clear();
 			cl->setLabel("Введите количество предметов: ");
@@ -117,7 +124,6 @@ void DataEntry(Data* (&d), int& n) {
 		cout << endl;
 	}
 }
-//работает
 
 void DataRead(Data* (&d), int& n, string FileName) {
 	ifstream reading;
@@ -270,7 +276,6 @@ void DataRead(Data* (&d), int& n, string FileName) {
 
 	reading.close();
 }
-//Работает
 
 void Print(Data* d, int n) {
 	for (int i = 0; i < n; i++) {
@@ -282,7 +287,6 @@ void Print(Data* d, int n) {
 			cout << endl;
 	}
 }
-//работает
 
 void DataChange(Data* d, int n) {
 	Fio fio;
@@ -468,9 +472,18 @@ void DataChange(Data* d, int n) {
 
 			if (sesia.sesia_count < 8) { //0 — 8
 				sesia.sesia_count++;
-				cl->clear();
+				error_ses:cl->clear();
 				cl->setLabel("Введите сессию: ");
 				sesia.sesia[sesia.sesia_count] = cl->getData(editType::onlyDigit, 1, 9);
+
+				for (int k = 0; k <= sesia.sesia_count; k++) {
+					if (sesia.sesia[k] == sesia.sesia[k - 1]) {
+						system("cls");
+						cout << "Ошибка: Введены 2 одинаковые сессии" << endl;
+						system("pause");
+						goto error_ses;
+					}
+				}
 
 				cl->clear();
 				cl->setLabel("Введите количество предметов: ");
@@ -507,6 +520,14 @@ void DataChange(Data* d, int n) {
 					}
 				}
 			}
+
+			else {
+				cl->clear();
+				cl->setLabel("Ошибка: Введено максимальное количество сессий");
+				system("pause");
+				break;
+			}
+
 			d[_n].DataEntry(sesia);
 			break;
 		case 10:
@@ -521,10 +542,6 @@ void DataChange(Data* d, int n) {
 				}
 			}
 
-			/*system("cls");
-			cout << endl;
-			d[_n].PrintSes();
-			cout << endl << "Введите сессию, в которой необходимо изменить данные: ";*/
 			cl->clear();
 			cl->setLabel("Введите сессию, в которой необходимо изменить данные: ");
 			sesia_num = cl->getData(editType::onlyDigit, 1, 9);
@@ -697,14 +714,12 @@ void DataChange(Data* d, int n) {
 		system("cls");
 	}
 }
-//работает
 
 void Copy(Data* d_n, Data* d_o, int n) {
 	for (int i = 0; i < n; i++) {
 		d_n[i] = d_o[i];
 	}
 }
-//работает
 
 void DataAdd(Data* (&d), int& n) {
 	Fio fio;
@@ -778,9 +793,16 @@ void DataAdd(Data* (&d), int& n) {
 	sesia.sesia_count = sesia.sesia_count - 1;
 
 	for (int n = 0; n <= sesia.sesia_count; n++) {
-		cl->clear();
+		error_ses:cl->clear();
 		cl->setLabel("Введите сессию: ");
 		sesia.sesia[n] = cl->getData(editType::onlyDigit, 1, 9);
+
+		if ((n != 0) && (sesia.sesia[n] == sesia.sesia[n - 1])) {
+			system("cls");
+			cout << "Ошибка: Введены 2 одинаковые сессии" << endl;
+			system("pause");
+			goto error_ses;
+		}
 
 		cl->clear();
 		cl->setLabel("Введите количество предметов: ");
@@ -823,7 +845,6 @@ void DataAdd(Data* (&d), int& n) {
 	cout << "Данные добавлены" << endl;
 	delete[] buf;
 }
-//работает
 
 void DataDel(Data* (&d), int& n) {
 	int _n;
@@ -851,27 +872,97 @@ void DataDel(Data* (&d), int& n) {
 
 	delete[] buf;
 }
-//работает
 
 void DataSort(Data* d, int n) {
-	Data buf;
-	int numOfSored = 0;
+	Check* cl = new Check();
 
-	for (int i = 0; i < n; i++) {
-		for (int j = i + 1; j < n; j++) {
-			if (d[i].GetFio().surname > d[j].GetFio().surname) {
-				buf = d[i];
-				d[i] = d[j];
-				d[j] = buf;
+	Sesia sesia;
+	unsigned int buf_mark;
+	string buf_diferens;
+	string buf_subject;
+	int _n;
+	int mini_menu;
 
-				numOfSored++;
+	cl->clear();
+	cout << "Введите номер студента (от 1 до " << n << "): ";
+	_n = cl->getData(editType::onlyDigit, 1, n);
+	_n--;
+
+	sesia.sesia_count = d[_n].GetSesia().sesia_count;
+	for (int i = 0; i <= sesia.sesia_count; i++) {
+		sesia.sesia[i] = d[_n].GetSesia().sesia[i];
+		sesia.subject_count[i] = d[_n].GetSesia().subject_count[i];
+		for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
+			for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
+				sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+				sesia.mark[sesia.sesia[i]][h] = d[_n].GetSesia().mark[sesia.sesia[i]][h];
+				sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+				sesia.subject[sesia.sesia[i]][h] = d[_n].GetSesia().subject[sesia.sesia[i]][h];
+				sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
+				sesia.diferens[sesia.sesia[i]][h] = d[_n].GetSesia().diferens[sesia.sesia[i]][h];
 			}
 		}
 	}
 
-	cout << "Данные отсортированиы\nКоличество сортировок: " << numOfSored << endl;
+	cl->clear();
+	cl->setLabel("Выберите действие:\n(0) Вернуться\n(1) Сортировка всех предметов в сеесиях\n(2) Указать сессию, в которой необходимо отсортировать предметы");
+	mini_menu = cl->getData(editType::onlyDigit, 0, 2);
+
+	switch (mini_menu) {
+	case 0:
+		break;
+	case 1:
+		for (int i = 0; i <= sesia.sesia_count; i++) {
+			for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
+				for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
+					if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
+						buf_mark = sesia.mark[sesia.sesia[i]][j];
+						sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
+						sesia.mark[sesia.sesia[i]][h] = buf_mark;
+						if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
+							buf_diferens = sesia.diferens[sesia.sesia[i]][j];
+							sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
+							sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
+						}
+						buf_subject = sesia.subject[sesia.sesia[i]][j];
+						sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
+						sesia.subject[sesia.sesia[i]][h] = buf_subject;
+					}
+				}
+			}
+		}
+		d[_n].DataEntry(sesia);
+		break;
+	case 2:
+		cl->clear();
+		cl->setLabel("Введите сессию:");
+		int sesia_select = cl->getData(editType::onlyDigit, 1, 9);
+
+		for (int i = 0; i <= sesia.sesia_count; i++) {
+			if (sesia_select == sesia.sesia[i]) {
+				for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
+					for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
+						if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
+							buf_mark = sesia.mark[sesia.sesia[i]][j];
+							sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
+							sesia.mark[sesia.sesia[i]][h] = buf_mark;
+							if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
+								buf_diferens = sesia.diferens[sesia.sesia[i]][j];
+								sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
+								sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
+							}
+							buf_subject = sesia.subject[sesia.sesia[i]][j];
+							sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
+							sesia.subject[sesia.sesia[i]][h] = buf_subject;
+						}
+					}
+				}
+			}
+		}
+		d[_n].DataEntry(sesia);
+		break;
+	}
 }
-//не так работает
 
 void DataSave(Data* d, int n, string FileName) {
 
@@ -985,4 +1076,3 @@ void DataSave(Data* d, int n, string FileName) {
 		record.close();
 	}
 }
-//Работает

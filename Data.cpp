@@ -24,7 +24,7 @@ Data::Data() {
 	sex.sex = "";
 
 	sesia.sesia_count = 0;
-	for (int i = 0; i <= 8; i++) {
+	for (int i = 0; i <= 9; i++) {
 		sesia.sesia[i] = 0;
 		for (int j = 0; j <= 9; j++) {
 			sesia.subject[i][j] = "";
@@ -57,7 +57,7 @@ Data::Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut inst
 	sex.sex = sex_.sex;
 
 	sesia.sesia_count = sesia_.sesia_count;
-	for (int i = 0; i <= 8; i++) {
+	for (int i = 0; i <= 9; i++) {
 		sesia.sesia[i] = sesia_.sesia[i];
 		for (int j = 0; j <= 9; j++) {
 			sesia.subject[i][j] = sesia_.subject[i][j];
@@ -145,7 +145,7 @@ void Data::DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Ins
 
 	sesia.sesia_count = sesia_.sesia_count;
 	
-	for (int i = 0; i <= 8; i++) {
+	for (int i = 0; i <= 9; i++) {
 		sesia.sesia[i] = sesia_.sesia[i];
 		for (int j = 0; j <= 9; j++) {
 			sesia.subject[i][j] = sesia_.subject[i][j];
@@ -194,7 +194,7 @@ void Data::DataEntry(Sex sex_) {
 
 void Data::DataEntry(Sesia sesia_) {
 	sesia.sesia_count = sesia_.sesia_count;
-	for (int i = 0; i <= 8; i++) {
+	for (int i = 0; i <= 9; i++) {
 		sesia.sesia[i] = sesia_.sesia[i];
 		for (int j = 0; j <= 9; j++) {
 			sesia.subject[i][j] = sesia_.subject[i][j];
@@ -227,7 +227,7 @@ Data& Data::operator=(Data d_o) {
 	this->sex.sex = d_o.sex.sex;
 
 	this->sesia.sesia_count = d_o.sesia.sesia_count;
-	for (int i = 0; i <= 8; i++) {
+	for (int i = 0; i <= 9; i++) {
 		this->sesia.sesia[i] = d_o.sesia.sesia[i];
 		for (int j = 0; j <= 9; j++) {
 			this->sesia.subject[i][j] = d_o.sesia.subject[i][j];
