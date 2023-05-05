@@ -66,7 +66,6 @@ public:
 	~Data();
 
 	void Print();
-	void PrintSes();
 	void DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
 
 	void DataEntry(Fio fio_);

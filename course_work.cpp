@@ -1,32 +1,30 @@
 ﻿#include "Func.h"
+#include "ListMenu.h"
 
-int _Menu;
+int switch_mainMenu = 0;
+void mainMenu() {
+	Menu mainMenu;
+	mainMenu.clearItem();
+	mainMenu.addItem("Выход из программы");
+	mainMenu.addItem("Ввод данных");
+	mainMenu.addItem("Вывод данных");
+	mainMenu.addItem("Изменение данных");
+	mainMenu.addItem("Добавление данных");
+	mainMenu.addItem("Удаление данных");
+	mainMenu.addItem("Сортировка данных");
+	mainMenu.addItem("Сохранение данных");
+	switch_mainMenu = mainMenu.entryItem(0, 7);
+};
 
-void Menu() {
-	Check* menu = new Check();
-	menu->clear();
-	menu->setLabel("Выберите действие:\n(0) Выход из программы\n(1) Ввод данных\n(2) Вывод данных\n(3) Изменение данных\n(4) Добавление данных\n(5) Удаление данных\n(6) Сортировка данных\n(7) Сохранение данных\nВведите значение:");
-	_Menu = menu->getData(editType::onlyDigit, 0, 7);
-	/*cout << "Выберите действие: " << endl
-		<< "(0) Выход из программы" << endl
-		<< "(1) Ввод данных" << endl
-		<< "(2) Вывод данных" << endl
-		<< "(3) Изменение данных" << endl
-		<< "(4) Добавление данных" << endl
-		<< "(5) Удаление данных" << endl
-		<< "(6) Сортировка данных" << endl
-		<< "(7) Сохранение данных" << endl
-		<< "Введите значение: ";
-	cin >> _Menu;*/
-}
-
-void Return() {
-	system("cls");
-	cout << "Введён некоректный номер" << endl
-		<< "(1) Вернуться в меню" << endl
-		<< "(2) Вернуть к прошлому шагу" << endl
-		<< "Введите значение: ";
-}
+int switch_menuCase1 = 0;
+void menuCase1() {
+	Menu menuCase1;
+	menuCase1.clearItem();
+	menuCase1.addItem("Вернуться в главное меню");
+	menuCase1.addItem("Внести данные о студенте вручную");
+	menuCase1.addItem("Внести данные о студенте из файла");
+	switch_menuCase1 = menuCase1.entryItem(0, 2);
+};
 
 int main() {
 	setlocale(LC_ALL, "Russian");
@@ -36,128 +34,93 @@ int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	Check* cl = new Check();
-
-	Menu();
-	int _actions;
-	int _actions_return;
 	string FileName;
 	string bin = ".bin";
 
 	int _size = 0;
 	Data* d = new Data[_size];
 
-	while (_Menu != 0) {
-		switch (_Menu)
-		{
+	Check* cl = new Check();
+	
+	mainMenu();
+	while (switch_mainMenu != 0) {
+		switch (switch_mainMenu) {
 		case 1:
-		d1:system("cls");
-			cl->clear();
-			cl->setLabel("(0) Вернуться в меню\n(1) Внести данные вручную\n(2) Считать данные из файла\nВведите значение:");
-			/*cout << "(0) Вернуться в меню" << endl
-				<< "(1) Внести данные вручную" << endl
-				<< "(2) Считать из файла" << endl
-				<< "Введите значение: ";
-			cin >> _actions;*/
-			_actions = cl->getData(editType::onlyDigit, 0, 2);
-
-			if (_actions == 1) {
-				DataEntry(d, _size);
-			}
-			else if (_actions == 2) {
-				cout << "Введите название файла: ";
-				cin >> FileName;
-				FileName += bin;
-				DataRead(d, _size, FileName);
-			}
-			else if (_actions == 0) { system("cls"); Menu(); break; }
-			else {
-			d2:system("cls");
-				Return();
-				cin >> _actions_return;
-				system("cls");
-				if (_actions_return == 1) { system("cls"); Menu(); break; }
-				else if (_actions_return == 2) { goto d1; }
-				else { goto d2; }
+			menuCase1();
+			while (switch_menuCase1 != 0) {
+				switch (switch_menuCase1) {
+				case 1:
+					switch_menuCase1 = 0;
+					DataEntry(d, _size);
+					break;
+				case 2:
+					switch_menuCase1 = 0;
+					cl->clear();
+					cl->setLabel("Введите название файла: ");
+					FileName = cl->getData(editType::onlyAlpha, 10);
+					FileName += bin;
+					DataRead(d, _size, FileName);
+					break;
+					mainMenu();
+					break;
+				}
 			}
 			system("pause");
-			system("cls");
-			Menu();
+			mainMenu();
 			break;
 		case 2:
 			system("cls");
-
 			if (_size != 0) { Print(d, _size); }
 			else { cout << "Данные пусты" << endl; }
-
 			system("pause");
-			system("cls");
-			Menu();
+			mainMenu();
 			break;
 		case 3:
 			system("cls");
-
 			if (_size != 0) { DataChange(d, _size); }
 			else { cout << "Данные пусты" << endl; }
-
 			system("pause");
-			system("cls");
-			Menu();
+			mainMenu();
 			break;
 		case 4:
 			system("cls");
-
 			if (_size != 0) { DataAdd(d, _size); }
 			else { cout << "Данные пусты" << endl; }
-
 			system("pause");
-			system("cls");
-			Menu();
+			mainMenu();
 			break;
 		case 5:
 			system("cls");
-
 			if (_size != 0) { DataDel(d, _size); }
 			else { cout << "Данные пусты" << endl; }
-
 			system("pause");
-			system("cls");
-			Menu();
+			mainMenu();
 			break;
 		case 6:
 			system("cls");
-
 			if (_size != 0) { DataSort(d, _size); }
 			else { cout << "Данные пусты" << endl; }
-
 			system("pause");
-			system("cls");
-			Menu();
+			mainMenu();
 			break;
 		case 7:
-			system("cls");
-
+			cl->clear();
 			if (_size != 0) {
-				cout << "Введите название файла: ";
-				cin >> FileName;
+				cl->setLabel("Введите название файла: ");
+				FileName = cl->getData(editType::onlyAlpha, 10);
 				FileName += bin;
 				DataSave(d, _size, FileName);
 			}
-			else { cout << "Данные пусты" << endl; }
-
-			system("pause");
-			system("cls");
-			Menu();
-			break;
-		default:
-			cout << "Пункт меню введён не верно" << endl;
-			system("cls");
-			Menu();
+			else {cout << "Данные пусты" << endl;}
+			mainMenu();
 			break;
 		}
 	}
-
+	
 	system("cls");
 	cout << "Работа завершена" << endl;
 	system("Pause");
+	SetConsoleCP(oldCPin);
+	SetConsoleOutputCP(oldCPout);
+	return 0;
 }
