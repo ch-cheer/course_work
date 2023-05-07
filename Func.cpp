@@ -17,7 +17,7 @@ void DataEntry(Data* (&d), int& n) {
 
 	cl->clear();
 	cl->setLabel("Введите количество студентов: ");
-	n = cl->getData(editType::onlyDigit, 1, 20);
+	n = cl->getData(editType::onlyDigit, 1, sizeof(n));
 
 	d = new Data[n];
 
