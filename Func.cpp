@@ -42,9 +42,16 @@ void DataEntry(Data* (&d), int& n) {
 		cl->setLabel("¬ведите год рождени€: ");
 		birthdate.year = cl->getData(editType::onlyDigit, 1800, 2100);
 
-		cl->clear();
+		errorBirthday:cl->clear();
 		cl->setLabel("¬ведите год поступлени€: ");
 		univeryear.univeryear = cl->getData(editType::onlyDigit, 1800, 2100);
+
+		if (birthdate.year >= univeryear.univeryear) {
+			system("cls");
+			cout << "ќшибка: ¬ведЄнное заначение (год рождени€) " << birthdate.year << " больше чем значение (год поступлени€) " << univeryear.univeryear << endl;
+			system("pause");
+			goto errorBirthday;
+		}
 
 		cl->clear();
 		cl->setLabel("¬ведите институт (факультет): ");
@@ -398,9 +405,16 @@ void DataChange(Data* d, int n) {
 				birthdate.month = cl->getData(editType::onlyDigit, 1, 12);
 				break;
 			case 3:
-				cl->clear();
+				univeryear.univeryear = d[_n].GetUniveryear().univeryear;
+				errorBirthday1:cl->clear();
 				cl->setLabel("¬ведите год рождени€: ");
 				birthdate.year = cl->getData(editType::onlyDigit, 1800, 2100);
+				if (birthdate.year >= univeryear.univeryear) {
+					system("cls");
+					cout << "ќшибка: ¬ведЄнное заначение (год рождени€) " << birthdate.year << " больше чем значение (год поступлени€) " << univeryear.univeryear << endl;
+					system("pause");
+					goto errorBirthday1;
+				}
 				break;
 			default:
 				cout << "ќшибка: ¬ведено неврное значение, введите значение от 0 до 3" << endl;
@@ -423,9 +437,16 @@ void DataChange(Data* d, int n) {
 			d[_n].DataEntry(birthdate);
 			break;
 		case 3:
-			cl->clear();
+			birthdate.year = d[_n].GetBirthdate().year;
+			errorBirthday2:cl->clear();
 			cl->setLabel("¬ведите год поступлени€: ");
 			univeryear.univeryear = cl->getData(editType::onlyDigit, 1800, 2100);
+			if (univeryear.univeryear <= birthdate.year) {
+				system("cls");
+				cout << "ќшибка: ¬ведЄнное заначение (год поступлени€) " << univeryear.univeryear << " меньше чем значение (год рождени€) " << birthdate.year << endl;
+				system("pause");
+				goto errorBirthday2;
+			}
 			d[_n].DataEntry(univeryear);
 			break;
 		case 4:
@@ -759,13 +780,20 @@ void DataAdd(Data* (&d), int& n) {
 	cl->clear();
 	cl->setLabel("¬ведите мес€ц рождени€: ");
 	birthdate.month = cl->getData(editType::onlyDigit, 1, 12);
-	cl->clear();
+	errorBirthday:cl->clear();
 	cl->setLabel("¬ведите год рождени€: ");
 	birthdate.year = cl->getData(editType::onlyDigit, 1800, 2100);
 
 	cl->clear();
 	cl->setLabel("¬ведите год поступлени€: ");
 	univeryear.univeryear = cl->getData(editType::onlyDigit, 1800, 2100);
+
+	if (birthdate.year >= univeryear.univeryear) {
+		system("cls");
+		cout << "ќшибка: ¬ведЄнное заначение (год рождени€) " << birthdate.year << " больше чем значение (год поступлени€) " << univeryear.univeryear << endl;
+		system("pause");
+		goto errorBirthday;
+	}
 
 	cl->clear();
 	cl->setLabel("¬ведите институт (факультет): ");

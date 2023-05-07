@@ -6,13 +6,13 @@ void mainMenu() {
 	Menu mainMenu;
 	mainMenu.clearItem();
 	mainMenu.addItem("Выход из программы");
-	mainMenu.addItem("Ввод данных");
-	mainMenu.addItem("Вывод данных");
-	mainMenu.addItem("Изменение данных");
-	mainMenu.addItem("Добавление данных");
-	mainMenu.addItem("Удаление данных");
-	mainMenu.addItem("Сортировка данных");
-	mainMenu.addItem("Сохранение данных");
+	mainMenu.addItem("Ввод данных о студенте");
+	mainMenu.addItem("Вывод данных о студенте");
+	mainMenu.addItem("Изменение данных о студенте");
+	mainMenu.addItem("Добавление данных о новом студенте");
+	mainMenu.addItem("Удаление данных о студенте");
+	mainMenu.addItem("Сортировка данных о студенте");
+	mainMenu.addItem("Сохранение данных о студенте");
 	switch_mainMenu = mainMenu.entryItem(0, 7);
 };
 
@@ -111,7 +111,12 @@ int main() {
 				FileName += bin;
 				DataSave(d, _size, FileName);
 			}
-			else {cout << "Данные пусты" << endl;}
+			else { cout << "Данные пусты" << endl; }
+			mainMenu();
+			break;
+		default:
+			cout << endl << "Ошибка: попробуйте снова" << endl;
+			system("pause");
 			mainMenu();
 			break;
 		}
