@@ -106,6 +106,9 @@ public:
 		else
 			label = "";
 	}
+	void setLabelNumStud(int n) {
+		this->label = "¬ведите номер студента от 1 до " + to_string(n);
+	}
 	bool isDigit(char ch) {
 		if (ch >= 48 and ch <= 57)
 			return true;

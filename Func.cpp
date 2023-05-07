@@ -320,7 +320,7 @@ void DataChange(Data* d, int n) {
 	Check* cl = new Check();
 
 	cl->clear();
-	cout << "¬ведите номер студента (от 1 до " << n << "): ";
+	cl->setLabelNumStud(n);
 	_n = cl->getData(editType::onlyDigit, 1, n);
 	_n--;
 
@@ -912,7 +912,7 @@ void DataSort(Data* d, int n) {
 	int mini_menu;
 
 	cl->clear();
-	cout << "¬ведите номер студента (от 1 до " << n << "): ";
+	cl->setLabelNumStud(n);
 	_n = cl->getData(editType::onlyDigit, 1, n);
 	_n--;
 
