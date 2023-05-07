@@ -492,7 +492,7 @@ void DataChange(Data* d, int n) {
 				for (int h = 0; h <= sesia.subject_count[sesia.sesia_count]; h++) {
 					cl->clear();
 					cl->setLabel("Введите предмет: ");
-					sesia.subject[sesia.sesia[sesia.sesia_count]][h] = cl->getData(editType::subject, 20);
+					sesia.subject[sesia.sesia[sesia.sesia_count]][h] = cl->getData(editType::subject, 85);
 					cl->clear();
 					cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
 					dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
@@ -580,20 +580,20 @@ void DataChange(Data* d, int n) {
 								if (j == subject_num) {
 									cl->clear();
 									cl->setLabel("Введите новый предмет: ");
-									sesia.subject[sesia.sesia[i]][j] = cl->getData(editType::onlyAlpha, 20);
+									sesia.subject[sesia.sesia[i]][j] = cl->getData(editType::subject, 85);
 								}
 							}
 							break;
 						case 2:
 							cl->clear();
 							cl->setLabel("Введите предмет, который хотите изменить: ");
-							subject_item = cl->getData(editType::onlyAlpha, 20);
+							subject_item = cl->getData(editType::subject, 85);
 							for (int j = 0; j <= sesia.subject_count[i]; j++) {
 								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
 								if (subject_item == sesia.subject[sesia.sesia[i]][j]) {
 									cl->clear();
 									cl->setLabel("Введите новый предмет: ");
-									sesia.subject[sesia.sesia[i]][j] = cl->getData(editType::onlyAlpha, 20);
+									sesia.subject[sesia.sesia[i]][j] = cl->getData(editType::subject, 85);
 								}
 							}
 							break;
@@ -654,7 +654,7 @@ void DataChange(Data* d, int n) {
 						case 2:
 							cl->clear();
 							cl->setLabel("Введите предмет, оценку которого хотите изменить хотите изменить: ");
-							subject_item = cl->getData(editType::onlyAlpha, 20);
+							subject_item = cl->getData(editType::subject, 85);
 							for (int j = 0; j <= sesia.subject_count[i]; j++) {
 								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
 								if (subject_item == sesia.subject[sesia.sesia[i]][j]) {
