@@ -90,7 +90,7 @@ void DataEntry(Data* (&d), int& n) {
 			for (int h = 0; h <= sesia.subject_count[n]; h++) {
 				cl->clear();
 				cl->setLabel("Введите предмет: ");
-				sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::onlyAlpha, 20);
+				sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::subject, 85);
 				cl->clear();
 				cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
 				dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
@@ -492,7 +492,7 @@ void DataChange(Data* d, int n) {
 				for (int h = 0; h <= sesia.subject_count[sesia.sesia_count]; h++) {
 					cl->clear();
 					cl->setLabel("Введите предмет: ");
-					sesia.subject[sesia.sesia[sesia.sesia_count]][h] = cl->getData(editType::onlyAlpha, 20);
+					sesia.subject[sesia.sesia[sesia.sesia_count]][h] = cl->getData(editType::subject, 20);
 					cl->clear();
 					cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
 					dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
@@ -811,7 +811,7 @@ void DataAdd(Data* (&d), int& n) {
 		for (int h = 0; h <= sesia.subject_count[n]; h++) {
 			cl->clear();
 			cl->setLabel("Введите предмет: ");
-			sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::onlyAlpha, 20);
+			sesia.subject[sesia.sesia[n]][h] = cl->getData(editType::subject, 85);
 			cl->clear();
 			cl->setLabel("Введите тип оценки:\n(1) Дифференцированный зачет (с оценкой) / экзамен\n(2) Зачёт / незачет");
 			dif_nodif = cl->getData(editType::onlyDigit, 1, 2);
@@ -913,21 +913,30 @@ void DataSort(Data* d, int n) {
 		break;
 	case 1:
 		for (int i = 0; i <= sesia.sesia_count; i++) {
-			for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
-				for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
-					if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
-						buf_mark = sesia.mark[sesia.sesia[i]][j];
-						sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
-						sesia.mark[sesia.sesia[i]][h] = buf_mark;
-						if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
-							buf_diferens = sesia.diferens[sesia.sesia[i]][j];
-							sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
-							sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
+			if (sesia.subject_count[i] > 0) {
+				for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
+					for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
+						if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
+							buf_mark = sesia.mark[sesia.sesia[i]][j];
+							sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
+							sesia.mark[sesia.sesia[i]][h] = buf_mark;
+							if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
+								buf_diferens = sesia.diferens[sesia.sesia[i]][j];
+								sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
+								sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
+							}
+							buf_subject = sesia.subject[sesia.sesia[i]][j];
+							sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
+							sesia.subject[sesia.sesia[i]][h] = buf_subject;
 						}
-						buf_subject = sesia.subject[sesia.sesia[i]][j];
-						sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
-						sesia.subject[sesia.sesia[i]][h] = buf_subject;
 					}
+				}
+			}
+			else {
+				for (int j = 0; j <= sesia.subject_count[i]; j++) {
+					sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+					sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+					sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
 				}
 			}
 		}
@@ -956,6 +965,13 @@ void DataSort(Data* d, int n) {
 							sesia.subject[sesia.sesia[i]][h] = buf_subject;
 						}
 					}
+				}
+			}
+			else {
+				for (int j = 0; j <= sesia.subject_count[i]; j++) {
+					sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+					sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+					sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
 				}
 			}
 		}
