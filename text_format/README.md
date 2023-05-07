@@ -4,4 +4,6 @@
 
 <i>К сожалению правка этих файлов — слишком уж долгий процесс, поэтому код в текстовом формате <b>будет выложен только после релиза</b></i>.
 
+[<b>Методические указания по курсовой работе<b>]([https://github.com/ch-cheer/course_work/tree/master/text_format](https://github.com/ch-cheer/course_work/blob/master/text_format/%D0%9Ce%D1%82%D0%BE%D0%B4.%20%D1%83%D0%BA%D0%B0%D0%B7.%20%D0%BF%D0%BE%20%D0%9A%D0%A0%20%D0%B4%D0%B8%D1%81%D1%86.%20%D0%AF%D0%9F-2023-1.pdf))
+
 <h3>Заранее прошу прощения.</h3>
