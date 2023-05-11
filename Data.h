@@ -8,7 +8,7 @@
 
 using namespace std;
 
-enum class editType : char { onlyDigit, onlyAlpha, all, subject };
+enum class editType : char { onlyDigit, onlyAlpha, all, subject, sex };
 
 struct Fio {
 	string surname, name, fathername;
@@ -144,6 +144,12 @@ public:
 		else
 			return false;
 	}
+	bool isSex(char ch) {
+		if (ch == 'м' or ch == 'М' or ch == 'ж' or ch == 'Ж')
+			return true;
+		else
+			return false;
+	}
 	void clear(string _data = "") {
 		system("cls");
 		data = _data;
@@ -178,6 +184,11 @@ public:
 			}
 			if (et == editType::subject) 
 				if (isAlpha(ch) || isSpace(ch)) {
+					cout << ch;
+					data = data + ch;
+				}
+			if (et == editType::sex)
+				if (isSex(ch)) {
 					cout << ch;
 					data = data + ch;
 				}
@@ -233,6 +244,16 @@ public:
 			getData(et);
 			if (data.length() > len) {
 				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " " << endl;
+				system("pause");
+				clear();
+				getData(et, len);
+			}
+			return data;
+		}
+		if (et == editType::sex) {
+			getData(et);
+			if (data.length() > len) {
+				cout << endl << "Ошибка: Введите одну букву" << endl;
 				system("pause");
 				clear();
 				getData(et, len);

@@ -70,8 +70,12 @@ void DataEntry(Data* (&d), int& n) {
 		exambook.exambook = cl->getData(editType::all);
 
 		cl->clear();
-		cl->setLabel("Введите пол: ");
-		sex.sex = cl->getData(editType::onlyAlpha, 10);
+		cl->setLabel("Выберите пол:\n(М / м) Мужской\n(Ж / ж) Женский");
+		string sex_input = cl->getData(editType::sex, 1);
+		if (sex_input == "м" or sex_input == "М")
+			sex.sex = "Мужской";
+		else if (sex_input == "ж" or sex_input == "Ж")
+			sex.sex = "Женский";
 
 		cl->clear();
 		cl->setLabel("Введите количество сессий (от 1 до 9): ");
@@ -324,6 +328,8 @@ void DataChange(Data* d, int n) {
 	_n = cl->getData(editType::onlyDigit, 1, n);
 	_n--;
 
+	string sex_input;
+
 
 	if (_n >= 0 && _n < n) {
 		cl->clear();
@@ -475,8 +481,12 @@ void DataChange(Data* d, int n) {
 			break;
 		case 8:
 			cl->clear();
-			cl->setLabel("Введите пол: ");
-			sex.sex = cl->getData(editType::onlyAlpha, 10);
+			cl->setLabel("Выберите пол:\n(М / м) Мужской\n(Ж / ж) Женский");
+			sex_input = cl->getData(editType::sex, 1);
+			if (sex_input == "м" or sex_input == "М")
+				sex.sex = "Мужской";
+			else if (sex_input == "ж" or sex_input == "Ж")
+				sex.sex = "Женский";
 			d[_n].DataEntry(sex);
 			break;
 		case 9:
@@ -812,8 +822,12 @@ void DataAdd(Data* (&d), int& n) {
 	exambook.exambook = cl->getData(editType::all);
 
 	cl->clear();
-	cl->setLabel("Введите пол: ");
-	sex.sex = cl->getData(editType::onlyAlpha, 10);
+	cl->setLabel("Выберите пол:\n(М / м) Мужской\n(Ж / ж) Женский");
+	string sex_input = cl->getData(editType::sex, 1);
+	if (sex_input == "м" or sex_input == "М")
+		sex.sex = "Мужской";
+	else if (sex_input == "ж" or sex_input == "Ж")
+		sex.sex = "Женский";
 
 	cl->clear();
 	cl->setLabel("Введите количество сессий (от 1 до 9): ");
@@ -935,6 +949,7 @@ void DataSort(Data* d, int n) {
 	cl->clear();
 	cl->setLabel("Выберите действие:\n(0) Вернуться\n(1) Сортировка всех предметов в сеесиях\n(2) Указать сессию, в которой необходимо отсортировать предметы");
 	mini_menu = cl->getData(editType::onlyDigit, 0, 2);
+	cout << endl;
 
 	switch (mini_menu) {
 	case 0:
@@ -974,6 +989,7 @@ void DataSort(Data* d, int n) {
 		cl->clear();
 		cl->setLabel("Введите сессию:");
 		int sesia_select = cl->getData(editType::onlyDigit, 1, 9);
+		cout << endl;
 
 		for (int i = 0; i <= sesia.sesia_count; i++) {
 			if (sesia_select == sesia.sesia[i]) {
