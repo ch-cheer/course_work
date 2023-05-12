@@ -8,14 +8,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Check">
-    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Position X="8" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAQAAgAAAACEBACAAAAAAAAAAAAAAAAQQAQADAAAoA=</HashCode>
       <FileName>Data.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Menu">
-    <Position X="9.5" Y="0.5" Width="1.5" />
+    <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAgAQCAAAAAACAAAAAAAAIAAAAQBAAAAAAgAA=</HashCode>
       <FileName>ListMenu.h</FileName>
@@ -85,14 +85,14 @@
     </TypeIdentifier>
   </Struct>
   <Struct Name="DataMenu">
-    <Position X="9.5" Y="3.75" Width="1.5" />
+    <Position X="10.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>ListMenu.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Enum Name="editType">
-    <Position X="4" Y="5.25" Width="1.5" />
+    <Position X="8" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAQAAAAAQAAACAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Data.h</FileName>
