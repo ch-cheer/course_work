@@ -7,18 +7,18 @@
       <FileName>Data.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Check">
-    <Position X="8" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AEAQAAgAAAACEBACAAAAAAAAAAAAAAAAQQAQADAAAoA=</HashCode>
-      <FileName>Data.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Menu">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAgAQCAAAAAACAAAAAAAAIAAAAQBAAAAAAgAA=</HashCode>
       <FileName>ListMenu.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Check">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAQAAgAAAACEBACAAAAAAAAAAAAAAAAQQAQADAAIoA=</HashCode>
+      <FileName>Data.h</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="Fio">

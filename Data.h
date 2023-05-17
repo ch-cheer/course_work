@@ -109,6 +109,9 @@ public:
 	void setLabelNumStud(int n) {
 		this->label = "Введите номер студента от 1 до " + to_string(n);
 	}
+	void setLabelSort(int n) {
+		this->label = "Выбран студент " + to_string(n) + "\nВведите сессию: ";
+	}
 	bool isDigit(char ch) {
 		if (ch >= 48 and ch <= 57)
 			return true;

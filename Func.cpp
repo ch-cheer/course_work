@@ -918,109 +918,128 @@ void DataDel(Data* (&d), int& n) {
 void DataSort(Data* d, int n) {
 	Check* cl = new Check();
 
+	Group group;
 	Sesia sesia;
 	unsigned int buf_mark;
+	string entry_group;
 	string buf_diferens;
 	string buf_subject;
-	int _n;
 	int mini_menu;
+	int gg = 0;
 
 	cl->clear();
-	cl->setLabelNumStud(n);
-	_n = cl->getData(editType::onlyDigit, 1, n);
-	_n--;
+	cl->setLabel("Введите группу, для которой необходимо выполнить сортировку");
+	entry_group = cl->getData(editType::all);
 
-	sesia.sesia_count = d[_n].GetSesia().sesia_count;
-	for (int i = 0; i <= sesia.sesia_count; i++) {
-		sesia.sesia[i] = d[_n].GetSesia().sesia[i];
-		sesia.subject_count[i] = d[_n].GetSesia().subject_count[i];
-		for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
-			for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
-				sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
-				sesia.mark[sesia.sesia[i]][h] = d[_n].GetSesia().mark[sesia.sesia[i]][h];
-				sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
-				sesia.subject[sesia.sesia[i]][h] = d[_n].GetSesia().subject[sesia.sesia[i]][h];
-				sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
-				sesia.diferens[sesia.sesia[i]][h] = d[_n].GetSesia().diferens[sesia.sesia[i]][h];
-			}
+	for (int _n = 0; _n < n; _n++) {
+		group.group = d[_n].GetGroup().group;
+		if (group.group == entry_group) {
+			gg++;
 		}
 	}
 
-	cl->clear();
-	cl->setLabel("Выберите действие:\n(0) Вернуться\n(1) Сортировка всех предметов в сеесиях\n(2) Указать сессию, в которой необходимо отсортировать предметы");
-	mini_menu = cl->getData(editType::onlyDigit, 0, 2);
-	cout << endl;
-
-	switch (mini_menu) {
-	case 0:
-		break;
-	case 1:
-		for (int i = 0; i <= sesia.sesia_count; i++) {
-			if (sesia.subject_count[i] > 0) {
-				for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
-					for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
-						if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
-							buf_mark = sesia.mark[sesia.sesia[i]][j];
-							sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
-							sesia.mark[sesia.sesia[i]][h] = buf_mark;
-							if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
-								buf_diferens = sesia.diferens[sesia.sesia[i]][j];
-								sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
-								sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
-							}
-							buf_subject = sesia.subject[sesia.sesia[i]][j];
-							sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
-							sesia.subject[sesia.sesia[i]][h] = buf_subject;
-						}
-					}
-				}
-			}
-			else {
-				for (int j = 0; j <= sesia.subject_count[i]; j++) {
-					sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
-					sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
-					sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
-				}
-			}
-		}
-		d[_n].DataEntry(sesia);
-		break;
-	case 2:
+	if (gg != 0) {
 		cl->clear();
-		cl->setLabel("Введите сессию:");
-		int sesia_select = cl->getData(editType::onlyDigit, 1, 9);
+		cl->setLabel("Выберите действие:\n(0) Вернуться\n(1) Сортировка всех предметов в сеесиях\n(2) Указать сессию, в которой необходимо отсортировать предметы");
+		mini_menu = cl->getData(editType::onlyDigit, 0, 2);
 		cout << endl;
-
-		for (int i = 0; i <= sesia.sesia_count; i++) {
-			if (sesia_select == sesia.sesia[i]) {
-				for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
-					for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
-						if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
-							buf_mark = sesia.mark[sesia.sesia[i]][j];
-							sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
-							sesia.mark[sesia.sesia[i]][h] = buf_mark;
-							if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
-								buf_diferens = sesia.diferens[sesia.sesia[i]][j];
-								sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
-								sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
-							}
-							buf_subject = sesia.subject[sesia.sesia[i]][j];
-							sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
-							sesia.subject[sesia.sesia[i]][h] = buf_subject;
+		for (int _n = 0; _n < n; _n++) {
+			group.group = d[_n].GetGroup().group;
+			if (group.group == entry_group) {
+				//инициализация переменных
+				sesia.sesia_count = d[_n].GetSesia().sesia_count;
+				for (int i = 0; i <= sesia.sesia_count; i++) {
+					sesia.sesia[i] = d[_n].GetSesia().sesia[i];
+					sesia.subject_count[i] = d[_n].GetSesia().subject_count[i];
+					for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
+						for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
+							sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+							sesia.mark[sesia.sesia[i]][h] = d[_n].GetSesia().mark[sesia.sesia[i]][h];
+							sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+							sesia.subject[sesia.sesia[i]][h] = d[_n].GetSesia().subject[sesia.sesia[i]][h];
+							sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
+							sesia.diferens[sesia.sesia[i]][h] = d[_n].GetSesia().diferens[sesia.sesia[i]][h];
 						}
 					}
 				}
-			}
-			else {
-				for (int j = 0; j <= sesia.subject_count[i]; j++) {
-					sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
-					sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
-					sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
+				//конец
+				switch (mini_menu) {
+				case 0:
+					break;
+				case 1:
+					for (int i = 0; i <= sesia.sesia_count; i++) {
+						if (sesia.subject_count[i] > 0) {
+							for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
+								for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
+									if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
+										buf_mark = sesia.mark[sesia.sesia[i]][j];
+										sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
+										sesia.mark[sesia.sesia[i]][h] = buf_mark;
+										if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
+											buf_diferens = sesia.diferens[sesia.sesia[i]][j];
+											sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
+											sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
+										}
+										buf_subject = sesia.subject[sesia.sesia[i]][j];
+										sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
+										sesia.subject[sesia.sesia[i]][h] = buf_subject;
+									}
+								}
+							}
+						}
+						else {
+							for (int j = 0; j <= sesia.subject_count[i]; j++) {
+								sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+								sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
+							}
+						}
+					}
+					d[_n].DataEntry(sesia);
+					break;
+				case 2:
+					int stud_num = _n + 1;
+					cl->clear();
+					cl->setLabelSort(stud_num);
+					int sesia_select = cl->getData(editType::onlyDigit, 1, 9);
+					cout << endl;
+					for (int i = 0; i <= sesia.sesia_count; i++) {
+						if (sesia_select == sesia.sesia[i]) {
+							for (int j = 0; j <= sesia.subject_count[i] - 1; j++) {
+								for (int h = j + 1; h <= sesia.subject_count[i]; h++) {
+									if (sesia.mark[sesia.sesia[i]][j] > sesia.mark[sesia.sesia[i]][h]) {
+										buf_mark = sesia.mark[sesia.sesia[i]][j];
+										sesia.mark[sesia.sesia[i]][j] = sesia.mark[sesia.sesia[i]][h];
+										sesia.mark[sesia.sesia[i]][h] = buf_mark;
+										if ((sesia.mark[sesia.sesia[i]][j] == 0) || (sesia.mark[sesia.sesia[i]][j] == 1)) {
+											buf_diferens = sesia.diferens[sesia.sesia[i]][j];
+											sesia.diferens[sesia.sesia[i]][j] = sesia.diferens[sesia.sesia[i]][h];
+											sesia.diferens[sesia.sesia[i]][h] = buf_diferens;
+										}
+										buf_subject = sesia.subject[sesia.sesia[i]][j];
+										sesia.subject[sesia.sesia[i]][j] = sesia.subject[sesia.sesia[i]][h];
+										sesia.subject[sesia.sesia[i]][h] = buf_subject;
+									}
+								}
+							}
+						}
+						else {
+							for (int j = 0; j <= sesia.subject_count[i]; j++) {
+								sesia.mark[sesia.sesia[i]][j] = d[_n].GetSesia().mark[sesia.sesia[i]][j];
+								sesia.subject[sesia.sesia[i]][j] = d[_n].GetSesia().subject[sesia.sesia[i]][j];
+								sesia.diferens[sesia.sesia[i]][j] = d[_n].GetSesia().diferens[sesia.sesia[i]][j];
+							}
+						}
+					}
+					d[_n].DataEntry(sesia);
+					break;
 				}
 			}
 		}
-		d[_n].DataEntry(sesia);
-		break;
+	}
+	else {
+		system("cls");
+		cout << "Ошибка: Введённая группа не существует" << endl;
 	}
 }
 
