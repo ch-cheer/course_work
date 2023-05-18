@@ -7,49 +7,50 @@
 	#include <Windows.h>
 	#include <conio.h>
 	#include <stdio.h>
-
+	
 	using namespace std;
-
-	enum class editType : char { onlyDigit, onlyAlpha, all };
-
+	
+	enum class editType : char { onlyDigit, onlyAlpha, all, subject, sex };
+	
 	struct Fio {
 		string surname, name, fathername;
 	};
-
+	
 	struct Birthdate {
 		int day, month, year;
 	};
-
+	
 	struct Univeryear {
 		int univeryear;
 	};
-
+	
 	struct Institut {
 		string institut;
 	};
-
+	
 	struct Kafedra {
 		string kafedra;
 	};
-
+	
 	struct Group {
 		string group;
 	};
-
+	
 	struct Exambook {
 		string exambook;
 	};
-
+	
 	struct Sex {
 		string sex;
 	};
-
+	
 	struct Sesia {
-		string subject[9];
-		unsigned int mark[9], sesia[10];
-		short unsigned int subject_count, sesia_count;
+		string subject[10][10];
+		unsigned int mark[10][10], sesia[10];
+		short unsigned int subject_count[10], sesia_count;
+		string diferens[10][10];
 	};
-
+	
 	class Data {
 	private:
 		Fio fio;
@@ -65,11 +66,20 @@
 		Data();
 		Data(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
 		~Data();
-
+	
 		void Print();
-		/*void Print(int subject_count);*/
 		void DataEntry(Fio fio_, Birthdate birthdate_, Univeryear univeryear_, Institut institut_, Kafedra kafedra_, Group group_, Exambook exambook_, Sex sex_, Sesia sesia_);
-
+	
+		void DataEntry(Fio fio_);
+		void DataEntry(Birthdate birthdate_);
+		void DataEntry(Univeryear univeryear_);
+		void DataEntry(Institut institut_);
+		void DataEntry(Kafedra kafedra_);
+		void DataEntry(Group group_);
+		void DataEntry(Exambook exambook_);
+		void DataEntry(Sex sex_);
+		void DataEntry(Sesia sesia_);
+	
 		Fio GetFio() { return fio; }
 		Birthdate GetBirthdate() { return birthdate; }
 		Univeryear GetUniveryear() { return univeryear; }
@@ -79,10 +89,10 @@
 		Exambook GetExambook() { return exambook; }
 		Sex GetSex() { return sex; }
 		Sesia GetSesia() { return sesia; }
-
+	
 		Data& operator = (Data d_o);
 	};
-
+	
 	class Check {
 	private:
 		string label;
@@ -97,6 +107,12 @@
 				this->label = _label;
 			else
 				label = "";
+		}
+		void setLabelNumStud(int n) {
+			this->label = "Введите номер студента от 1 до " + to_string(n);
+		}
+		void setLabelSort(int n) {
+			this->label = "Выбран студент " + to_string(n) + "\nВведите сессию: ";
 		}
 		bool isDigit(char ch) {
 			if (ch >= 48 and ch <= 57)
@@ -133,17 +149,23 @@
 			else
 				return false;
 		}
+		bool isSex(char ch) {
+			if (ch == 'м' or ch == 'М' or ch == 'ж' or ch == 'Ж')
+				return true;
+			else
+				return false;
+		}
 		void clear(string _data = "") {
 			system("cls");
 			data = _data;
 		}
-
+	
 		string getData(enum class editType et) {
 			char ch = 0;
 			cout << label << endl << data;
-			while (ch != 13) { //13 - код enter чтобы ввести значения
+			while (ch != 13) {
 				ch = _getch();
-				if (ch == 8) {  // Backspace удалить символ
+				if (ch == 8) {
 					if (data.length() > 0) {
 						data.pop_back();
 						system("cls");
@@ -165,8 +187,35 @@
 					cout << ch;
 					data = data + ch;
 				}
+				if (et == editType::subject) 
+					if (isAlpha(ch) || isSpace(ch)) {
+						cout << ch;
+						data = data + ch;
+					}
+				if (et == editType::sex)
+					if (isSex(ch)) {
+						cout << ch;
+						data = data + ch;
+					}
 			}
 			return data;
+		}
+		int getDataDigit(enum class editType et, int min) {
+			if (et == editType::onlyDigit) {
+				getData(et);
+				int num = min;
+				if (isStringDigit(data))
+					num = atoi(data.c_str());
+				if (not (num >= min)) {
+					cout << endl << "Ошибка: число которое вы ввели: " << num << " меньше минимального: " << min << endl;
+					system("pause");
+					clear();
+					getData(et, min);
+				}
+				if (isStringDigit(data))
+					num = atoi(data.c_str());
+				return num;
+			}
 		}
 		int getData(enum class editType et, int min, int max) {
 			if (et == editType::onlyDigit) {
@@ -175,7 +224,9 @@
 				if (isStringDigit(data))
 					num = atoi(data.c_str());
 				if (not (num >= min and num <= max)) {
-					cout << endl << "Ошибка: Число которое вы ввели: " << num << " Выходит из диапазона (" << min << "; " << max << ") ";
+					cout << endl << "Ошибка: Число которое вы ввели: " << num << " Выходит из диапазона (" << min << "; " << max << ") " << endl;
+					system("pause");
+					clear();
 					getData(et, min, max);
 				}
 				if (isStringDigit(data))
@@ -187,7 +238,29 @@
 			if (et == editType::onlyAlpha) {
 				getData(et);
 				if (data.length() > len) {
-					cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " ";
+					cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " " << endl;
+					system("pause");
+					clear();
+					getData(et, len);
+				}
+				return data;
+			}
+			if (et == editType::subject) {
+				getData(et);
+				if (data.length() > len) {
+					cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " " << endl;
+					system("pause");
+					clear();
+					getData(et, len);
+				}
+				return data;
+			}
+			if (et == editType::sex) {
+				getData(et);
+				if (data.length() > len) {
+					cout << endl << "Ошибка: Введите одну букву" << endl;
+					system("pause");
+					clear();
 					getData(et, len);
 				}
 				return data;
