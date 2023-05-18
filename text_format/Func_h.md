@@ -1,5 +1,5 @@
 # Func.h
-
+	
 	#pragma once
 	#include "Data.h"
 	
